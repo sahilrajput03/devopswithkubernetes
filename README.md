@@ -228,3 +228,16 @@ Quoting from official docs:
 > A Deployment provides declarative updates for Pods and ReplicaSets.
 
 https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+
+## Your basic workflow may look something like this:
+
+Quoting from Part 1 - Chapter 1.
+
+```bash
+docker build -t <image>:<new_tag>
+
+docker push <image>:<new_tag>
+Then edit deployment.yaml so that the tag is updated to the <new_tag> and
+
+kubectl apply -f manifests/deployment.yaml
+```
