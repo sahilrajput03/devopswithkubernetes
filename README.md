@@ -2,6 +2,21 @@
 
 Website: https://devopswithkubernetes.com/
 
+**Good naming conventions ~Sahil**
+
+**_tl;dr_**: Always use `-` instead of `.` to name anything for usage of separators.
+
+```bash
+# app name
+ex1-01
+# deploy name
+ex1-01-dep
+# service name
+ex1-01-svc
+# ingress name
+ex1-01-ing
+```
+
 - cli: `kubectl` and `k3d`.
 
 Course Repo: https://github.com/kubernetes-hy/kubernetes-hy.github.io
@@ -201,7 +216,7 @@ kubectl delete deploy hashgenerator-dep
 ```
 
 ```bash
-######## Using manifest/deployment.yaml file
+######## Using manifests/deployment.yaml file
 
 # apply the deployment: 1. using local file
 kc apply -f manifests/deployment.yaml
@@ -329,13 +344,34 @@ kc gelete my-service
 
 ## wrt to app2: ##
 # >> FILES ARE PRESENT IN `manifest` FOLDER.
+# >> Use `kc get svc,ing` command to spefici details of services and ingress respectively.
 
-# USING INGRESS:
+## USING INGRESS:
 # - ingress.yaml : connects port from cluster{loadbalancer}(80) to a hashresponse-svc (a clusterIp service @ 2345). #### FYI: You may verify port 80 via command `kc get ingress`
 # - service.yaml (cluster ip service): which connects port 2345 to app container(3000).
-# -> RESULT: We can access app-container from our host computer via port 8081.
+####### -> RESULT: We can access app-container from our host computer via port 8081.
 
-# USING NODEPORT:
+## USING NODEPORT:
 # - nodeport_service.yaml which connects port from cluster{agent:0}(30080) to app container(3000).
-# -> RESULT: We can access app-container from our host computer via port 8082.
+####### -> RESULT: We can access app-container from our host computer via port 8082.
+```
+
+## What if you deleted kubernetes service accidentally?
+
+```bash
+kc delete svc kubernetes
+```
+
+**_It will simply restart the service almost instantly._**
+
+## very stupid error that you might be doing
+
+- You haven't even build and pushed the docker image to dockerhub.
+- You are trying to update the latest deploy resource without deleteing the older latest deploy resource.
+
+## exercise 1.07
+
+```bash
+kc apply -f manifest/
+# this will run deployment, service(clusterip) and ingress.
 ```

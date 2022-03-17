@@ -8,27 +8,35 @@ set -o xtrace
 
 ###### PROGRAM #####
 # Build and push image
-dk build . -t sahilrajput03/projectv1.01
-dk image push sahilrajput03/projectv1.01
+dk build . -t sahilrajput03/project1-img
+dk image push sahilrajput03/project1-img
 
 # I am deleting and recreating coz i want tag to be `latest` only:
-kc delete deploy ex1.01-dep 2> /dev/null
+kc delete deploy project1-dep 2> /dev/null
+kc delete svc project1-svc 2> /dev/null
+kc delete ing project1-ing 2> /dev/null
 
-# update deploy
-kc apply -f manifests/deployment.yaml
+# create/update deploy with ingress + clusterip service
+kc apply -f manifests/
 
+# create/update deploy with nodeport service:
+# kc apply -f ./manifests-nodeport
+
+
+# ONLY DEPLOY:
+# kc apply -f manifests/deployment.yaml
 
 # VERIFY:
-# kc logs -f projectv1.01-dep<TAB>
+# kc logs -f project1-dep<TAB>
 
 # TEST PORT FORWARD:
 #Ex1.05:
-# kc port-forward projectv1.01-dep-664d94b6dd-rrglc 3001:3000
+# kc port-forward project1-dep-664d94b6dd-rrglc 3001:3000
 # FYI: (host:container) => (3001:3000) 
 
 # FYI:
 # `kc apply` is used instead of `kc create` when you want to create from a yaml file.
-# kc create deploy dep-projectv1.01 --image=sahilrajput03/projectv1.01
+# kc create deploy dep-project1 --image=sahilrajput03/project1
 
 # A BASIC WORKFLOW:
 # ================

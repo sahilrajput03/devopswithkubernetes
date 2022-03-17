@@ -9,17 +9,17 @@ set -o xtrace
 
 ###### PROGRAM #####
 # Build and push image
-dk build . -t sahilrajput03/ex1.01
-dk image push sahilrajput03/ex1.01
+dk build . -t sahilrajput03/ex1-01
+dk image push sahilrajput03/ex1-01
 
 # I am deleting and recreating coz i want tag to be `latest` only:
-kc delete deploy ex1.01-dep 2> /dev/null
+kc delete deploy ex1-01-dep 2> /dev/null
 
 # update deploy
 kc apply -f manifests/deployment.yaml
 
 # VERIFY:
-# kc logs -f ex1.01<TAB>
+# kc logs -f ex1-01<TAB>
 
 
 # FYI:
