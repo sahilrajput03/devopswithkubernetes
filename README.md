@@ -241,3 +241,75 @@ Then edit deployment.yaml so that the tag is updated to the <new_tag> and
 
 kubectl apply -f manifests/deployment.yaml
 ```
+
+# Chapter 2
+
+```bash
+# create deployment with pods:
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-hy/material-example/master/app1/manifests/deployment.yaml
+# see details about our delployment:
+kubectl describe deploy hashgenerator-dep
+# see details of pods:
+kubectl describe pod hashgenerator-dep-<TAB>
+
+# get events:
+kubectl get events
+```
+
+## Get kubelctl config:
+
+```bash
+# get config:
+kubectl config view --minify --raw
+```
+
+## installing lens
+
+```bash
+# install lens (a k8 IDE)
+# src: https://aur.archlinux.org/packages/lens
+
+git clone https://aur.archlinux.org/lens.git
+cd lens
+makepkg -si
+
+
+# Usage:
+open-lens
+```
+
+## portforward
+
+```bash
+kc port-forward hashresponse-dep-869df48685-q9cmf 3001:3000
+# here we are connecting host(3001) to container(3000).
+
+# FYI: This syntax is same as
+docker run -p host_port:container_port
+```
+
+Chapter 3
+
+E.x. 1.06
+
+```bash
+# if ports are not exposed with existing k3d containers then u would need to do:
+k3d cluster delete
+k3d cluster create --port 8082:30080@agent:0 -p 8081:80@loadbalancer --agents 2
+
+# Starting our app and the nodePort service:
+cd projectv0.1
+kubectl apply -f manifests/deployment.yaml
+kubectl apply -f manifests/nodeport_service.yaml
+curl localhost:8082
+```
+
+- Other useful:
+
+```bash
+kc get svc
+kc get endpoints
+
+
+kc gelete my-service
+```
