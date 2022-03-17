@@ -313,3 +313,29 @@ kc get endpoints
 
 kc gelete my-service
 ```
+
+## Learning nodePort vs. (ingress + clusterip)?
+
+```bash
+##### PREREQUISITE: ######
+# 1.  Our app in container runs @ port 3000.
+
+# k3d cluster create --port 8082:30080@agent:0 -p 8081:80@loadbalancer --agents 2
+# 2. We used above command to have connections from HOST to CLUSTER (via k3d)
+# - host(8081) to loadbalancer(80)
+# - host(8082) to agent0(30080)
+
+###### Now we have two options i.e., use either nodePort or ingress(+clusterip)
+
+## wrt to app2: ##
+# >> FILES ARE PRESENT IN `manifest` FOLDER.
+
+# USING INGRESS:
+# - ingress.yaml : connects port from cluster{loadbalancer}(80) to a hashresponse-svc (a clusterIp service @ 2345). #### FYI: You may verify port 80 via command `kc get ingress`
+# - service.yaml (cluster ip service): which connects port 2345 to app container(3000).
+# -> RESULT: We can access app-container from our host computer via port 8081.
+
+# USING NODEPORT:
+# - nodeport_service.yaml which connects port from cluster{agent:0}(30080) to app container(3000).
+# -> RESULT: We can access app-container from our host computer via port 8082.
+```
