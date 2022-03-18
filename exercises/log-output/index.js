@@ -7,8 +7,8 @@ app.listen(PORT, () => console.log(`::::server is listening @ ${PORT}`))
 
 let log
 
-app.get('/', (req, res) => {
-	return res.send(log)
+app.get('*', (req, res) => {
+	return res.send(req.path + ' ,' + log)
 })
 
 // 8-4-4-12

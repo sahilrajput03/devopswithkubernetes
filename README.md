@@ -2,6 +2,19 @@
 
 Website: https://devopswithkubernetes.com/
 
+History of Kubernetes (wikipedia): https://en.wikipedia.org/wiki/Kubernetes#History
+
+- Supported tag names for docker images(USED DIRECTLY BY K8 AS WELL): https://docs.docker.com/engine/reference/commandline/tag/#:~:text=A%20tag%20name%20must%20be,a%20maximum%20of%20128%20characters.
+
+If you have private repository, you can refer https://docs.docker.com/engine/reference/commandline/tag/#tag-an-image-for-a-private-repository .
+
+```bash
+docker tag 0e5574283393 fedora/httpd:version1.0
+docker tag httpd:test fedora/httpd:version1.0.test
+# so common tag names schemes:
+# - latest, v1.0, v1.0.test, version1.0.test
+```
+
 **Good naming conventions ~Sahil**
 
 **_tl;dr_**: Always use `-` instead of `.` to name anything for usage of separators.
@@ -22,8 +35,8 @@ ex1-01-ing
 Course Repo: https://github.com/kubernetes-hy/kubernetes-hy.github.io
 Material Examples: https://github.com/kubernetes-hy/material-example
 Docker and Kubernetes Commands compared: https://kubernetes.io/docs/reference/kubectl/docker-cli-to-kubectl/
-Deployment (kubernete docs):
-https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+Deployment (kubernete docs): https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+Jakousa's Docker Hub: https://hub.docker.com/search?q=jakousa&type=image
 
 - Kubectl is a command-line tool that we will use to communicate with our Kubernetes cluster.
 
@@ -98,6 +111,10 @@ kc get po
 kc get deploy
 # To get both pods and deploy, use:
 kc get po,deploy
+
+# To get output in json or yaml, you can do like
+kc get po,deploy,svc -o yaml
+kc get po,deploy,svc -o json
 
 
 # po is alias for pods
@@ -342,6 +359,9 @@ kc gelete my-service
 
 ###### Now we have two options i.e., use either nodePort or ingress(+clusterip)
 
+###>>> OFFICIAL DOCS : LOVE: >>>> Exposing services:
+# https://github.com/k3d-io/k3d/blob/main/docs/usage/exposing_services.md
+
 ## wrt to app2: ##
 # >> FILES ARE PRESENT IN `manifest` FOLDER.
 # >> Use `kc get svc,ing` command to spefici details of services and ingress respectively.
@@ -374,4 +394,45 @@ kc delete svc kubernetes
 ```bash
 kc apply -f manifest/
 # this will run deployment, service(clusterip) and ingress.
+
+
+## FYI: ^^^  that command is really intelligentt as it takes care of ingress and service to only run if their files have changed, yikes!!
+```
+
+New commands learned by reading official docss @ [Deployments@Kubernetes](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+
+```bash
+kubectl rollout status deployment/nginx-deployment
+# Tip: You may use ctrl+c to stop the rollout status watch.
+
+# get replicasets
+kc get rs
+# rs is alias for (replicasets)
+
+
+### rollout to some previous deployment:
+# View rollout history
+kubectl rollout history deploy nginx-deployment
+
+# view history of all deployments
+kubectl rollout history deploy
+
+# rollback to previous version
+kc rollout undo deployment/nginx-deployment
+
+# rollback to a specific revision
+kc rollout undo deployment/nginx-deployment --to-revision=2
+
+# CHECK if the rollback was successful and the Deployment is running as expected, run:
+kc get deploy nginx-deployment
+# DESCRIPTION of the Deployment, and look for *events* section in the last:
+kubectl describe deployment nginx-deployment
+
+
+# Watch the status of the rollout (rs is alias for relicasets):
+kubectl get rs -w
+
+
+
+
 ```

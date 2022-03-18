@@ -1,5 +1,6 @@
 #!/bin/bash
-source ~/.bash_aliases
+alias dk='docker'
+alias kc='kubectl'
 shopt -s expand_aliases
 
 # Show commands before running:
