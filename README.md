@@ -4,15 +4,26 @@ Website: https://devopswithkubernetes.com/
 
 History of Kubernetes (wikipedia): https://en.wikipedia.org/wiki/Kubernetes#History
 
+ingress docs @ k8: https://kubernetes.io/docs/concepts/services-networking/ingress/#path-types
+
+nginx docs(rewrite): https://kubernetes.github.io/ingress-nginx/examples/rewrite/
+
+What is a pod?
+
+```bash
+kc explain po
+```
+
 - Supported tag names for docker images(USED DIRECTLY BY K8 AS WELL): https://docs.docker.com/engine/reference/commandline/tag/#:~:text=A%20tag%20name%20must%20be,a%20maximum%20of%20128%20characters.
 
 If you have private repository, you can refer https://docs.docker.com/engine/reference/commandline/tag/#tag-an-image-for-a-private-repository .
 
 ```bash
 docker tag 0e5574283393 fedora/httpd:version1.0
-docker tag httpd:test fedora/httpd:version1.0.test
-# so common tag names schemes:
+docker tag httpd:test fedora/httpd:version1.0.test # so common tag names schemes:
 # - latest, v1.0, v1.0.test, version1.0.test
+
+# Example of tags from a real docker image: https://hub.docker.com/_/alpine
 ```
 
 **Good naming conventions ~Sahil**
@@ -34,7 +45,7 @@ ex1-01-ing
 
 Course Repo: https://github.com/kubernetes-hy/kubernetes-hy.github.io
 Material Examples: https://github.com/kubernetes-hy/material-example
-Docker and Kubernetes Commands compared: https://kubernetes.io/docs/reference/kubectl/docker-cli-to-kubectl/
+`kubectl` for Docker Users@k8 Docs - Comparing Docker and Kubernetes Commands compared: https://kubernetes.io/docs/reference/kubectl/docker-cli-to-kubectl/
 Deployment (kubernete docs): https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
 Jakousa's Docker Hub: https://hub.docker.com/search?q=jakousa&type=image
 
@@ -399,7 +410,7 @@ kc apply -f manifest/
 ## FYI: ^^^  that command is really intelligentt as it takes care of ingress and service to only run if their files have changed, yikes!!
 ```
 
-New commands learned by reading official docss @ [Deployments@Kubernetes](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+- LOVE_MUST_READ: New commands learned by reading official docss @ [Deployments@Kubernetes](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 
 ```bash
 kubectl rollout status deployment/nginx-deployment
@@ -431,8 +442,61 @@ kubectl describe deployment nginx-deployment
 
 # Watch the status of the rollout (rs is alias for relicasets):
 kubectl get rs -w
+```
 
+## install nginx-ingress
 
+```bash
+# src: https://kubernetes.github.io/ingress-nginx/deploy/#quick-start
 
+# Install
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.1/deploy/static/provider/cloud/deploy.yaml
 
+# verify if all pods are up:
+kubectl get pods --namespace=ingress-nginx
+
+# OR YOU CAN CHECK WHEN THESE ARE UP using below command:
+kubectl wait --namespace ingress-nginx \
+  --for=condition=ready pod \
+  --selector=app.kubernetes.io/component=controller \
+  --timeout=120s
+
+#ALSO:
+kc get ingressclass nginx
+```
+
+## Know target port from the service
+
+```bash
+# kc describe svc hash-svc
+# Name:              hash-svc
+# Namespace:         default
+# Labels:            <none>
+# Annotations:       <none>
+# Selector:          app=images
+# Type:              ClusterIP
+# IP Family Policy:  SingleStack
+# IP Families:       IPv4
+# IP:                10.43.102.203
+# IPs:               10.43.102.203
+# Port:              <unset>  2345/TCP
+# TargetPort:        3000/TCP
+# Endpoints:         <none>
+# Session Affinity:  None
+# Events:            <none>
+```
+
+## rocker aliases
+
+```bash
+alias kc='kubectl'
+alias kcm='kubectl apply -f manifests/'
+alias ka='kubectl apply -f'
+alias kd='kubectl delete -f'
+alias kResetCluster='k3d cluster delete; k3d cluster create --port 8082:30080@agent:0 -p 8081:80@loadbalancer --agents 2'
+
+alias pd='kc get po,deploy'
+alias pds='kc get po,deploy,svc'
+alias pdsi='kc get po,deploy,svc,ing'
+alias pdsic='kc get po,deploy,svc,ing,ingressclass'
 ```

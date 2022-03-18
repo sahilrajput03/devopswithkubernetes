@@ -1,0 +1,1 @@
+kc logs -f hash-dep-8654b4674d-pjdls hash-writer
