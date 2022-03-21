@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: log-output-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: ex1-11-app
+  ports:
+    - port: 2345
+      name: log-output
+      protocol: TCP
+      targetPort: 3000
+    ### Using array item in above ports property won't be able to work coz in
+    ### ingress.yaml file we are binding port to distinct services so we must
+    ### create a distinct service with a name to make it work.
+    # - port: 2346
+    #   protocol: TCP
+    #   targetPort: 3001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pingpong-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: ex1-11-app
+  ports:
+    - port: 2346
+      protocol: TCP
+      targetPort: 3001

@@ -5,7 +5,7 @@ Website: https://devopswithkubernetes.com/
 History of Kubernetes (wikipedia): https://en.wikipedia.org/wiki/Kubernetes#History
 
 ingress docs @ k8: https://kubernetes.io/docs/concepts/services-networking/ingress/#path-types
-
+ingress docs @ k3: https://kubernetes.io/docs/concepts/services-networking/ingress/#path-types
 nginx docs(rewrite): https://kubernetes.github.io/ingress-nginx/examples/rewrite/
 
 What is a pod?
@@ -490,13 +490,90 @@ kc get ingressclass nginx
 
 ```bash
 alias kc='kubectl'
-alias kcm='kubectl apply -f manifests/'
 alias ka='kubectl apply -f'
+alias kam='kubectl apply -f manifests/'
 alias kd='kubectl delete -f'
+alias kdm='kubectl delete -f manifests/'
 alias kResetCluster='k3d cluster delete; k3d cluster create --port 8082:30080@agent:0 -p 8081:80@loadbalancer --agents 2'
+
 
 alias pd='kc get po,deploy'
 alias pds='kc get po,deploy,svc'
 alias pdsi='kc get po,deploy,svc,ing'
 alias pdsic='kc get po,deploy,svc,ing,ingressclass'
+
+# FYI: You can provide multiple files to `kubectl apply -f` as well:
+# SO BELOW WORKS AMAZINGLY COOL!
+ka deployment-persistent.yaml,ingress.yaml
+kd deployment-persistent.yaml,ingress.yaml
+```
+
+## Making use of persistent volume
+
+Qutoing from dwk:
+
+```txt
+For the PersistentVolume to work you first need to create the local path in the node
+we are binding it to. Since our k3d cluster runs via docker let's create a directory
+at /tmp/kube in the k3d-k3s-default-agent-0 container. This can simply be done via
+# command:
+docker exec k3d-k3s-default-agent-0 mkdir -p /tmp/kube
+```
+
+Trying to diff, old deployment.yaml -> deployment-persistent.yaml
+
+```bash
+diff ../manifestsOriginal/deployment.yaml deployment-persistent.yaml
+17c17,18
+<           emptyDir: {}
+---
+>           persistentVolumeClaim:
+>             claimName: image-claim
+```
+
+## An amazing article talkig about storages with kubernetes cluster
+
+Souce, from kubernetes Chapter 4 (Part 1).
+
+At https://softwareengineeringdaily.com/2019/01/11/why-is-storage-on-kubernetes-is-so-hard/ .
+
+### Rook - Rook is an open source cloud-native storage orchestrator for Kubernetes, providing the platform, framework, and support for a diverse set of storage solutions to natively integrate with cloud-native environments.
+
+https://rook.io/
+
+https://github.com/rook/rook (10k stars@github)
+
+Article about rook: https://blog.rook.io/rook-moves-into-the-cncf-incubator-d25197a6bb14
+
+Cloud Native Computing Foundation(CNFC):https://landscape.cncf.io/members
+
+Landscape: https://landscape.cncf.io/?fullscreen=yes
+
+Cloud Native Interactive Landscape: https://github.com/cncf/landscape
+
+Persistent Volume Claims (PVC), on the other hand, are requests for the storage, i.e. PVs. With PVC, it’s possible to bind storage to a particular node, making it available to that node for usage.
+
+**Container Storage Interface (CSI):** https://kubernetes-csi.github.io/docs/drivers.html
+
+Volume type - CSI: https://kubernetes.io/docs/concepts/storage/volumes/#csi
+
+> With the introduction of CSI, storage can be treated as another workload to be containerized and deployed on a Kubernetes cluster.
+
+> Without delving into its architecture, the key point to take is, Ceph is a distributed storage cluster that makes scalability much easier, eliminates single points of failure without sacrificing performance, and provides a unified storage with access to object, block, and file.Naturally, Ceph has been adapted into the cloud-native environment. There are numerous ways you can deploy a Ceph cluster, such as with Ansible. You can deploy a Ceph cluster and have an interface into it from your Kubernetes cluster, using CSI and PVCs.
+
+> Another interesting, and quite popular project is Rook, a tool that aims to converge Kubernetes and Ceph – to bring compute and storage together in one cluster.
+
+> Rook is a cloud-native storage orchestrator. It extends Kubernetes. Rook essentially allows putting Ceph into containers, and provides cluster management logic for running Ceph reliably on Kubernetes. Rook automates deployment, bootstrapping, configuration, scaling, rebalancing, i.e. the jobs that a cluster admin would do.
+
+> Rook allows deploying a Ceph cluster from a yaml, just like Kubernetes. This file serves as the higher-level declaration of what the cluster admin wants in the cluster. Rook spins up the cluster, and starts actively monitoring. Rook serves as an operator or a controller, making sure that the declared desired state in the yaml file is upheld. Rook runs in a reconciliation loop that observes the state and acting upon the differences it detects.
+
+> Rook does not have its own persistent state, and does not need to be managed. It’s truly built according to the principles of Kubernetes.
+
+> CSI Drivers @ k8 docs @ https://kubernetes-csi.github.io/docs/drivers.html
+
+## Most helpful debugging commmands
+
+```
+kc describe po
+kc logs -f <TAB>
 ```

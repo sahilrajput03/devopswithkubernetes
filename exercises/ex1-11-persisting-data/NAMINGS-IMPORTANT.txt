@@ -1,0 +1,11 @@
+log-output-svc (3000) @ 2345, HOSTED @ /
+pingpong-svc (3001) @ 2346, HOSTED@ /pingpong
+ex1-11-ingress
+ex1-11-dep
+ex1-11-app
+shared-pong-vol
+pong-claim
+
+::containers, image name::
+log-output, log-output-img
+pingpong, pingpong-img

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hash-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hash
+  template:
+    metadata:
+      labels:
+        app: hash
+    spec:
+      volumes:
+        - name: shared-hash
+          emptyDir: {}
+      containers:
+        - name: hash-reader-web
+          image: sahilrajput03/hash-reader-web-img
+          volumeMounts:
+            - name: shared-hash
+              mountPath: /usr/src/app/files
+        - name: hash-writer
+          image: sahilrajput03/hash-writer-img
+          volumeMounts:
+            - name: shared-hash
+              mountPath: /usr/src/app/files

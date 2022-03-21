@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ex1-11-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ex1-11-app
+  template:
+    metadata:
+      labels:
+        app: ex1-11-app
+    spec:
+      volumes:
+        - name: shared-pong-vol
+          persistentVolumeClaim:
+            claimName: pong-claim
+      containers:
+        - name: log-output
+          image: sahilrajput03/log-output-img
+          volumeMounts:
+            - name: shared-pong-vol
+              mountPath: /usr/src/app/files
+        - name: pingpong
+          image: sahilrajput03/pingpong-img
+          volumeMounts:
+            - name: shared-pong-vol
+              mountPath: /usr/src/app/files
