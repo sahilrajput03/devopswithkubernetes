@@ -69,13 +69,12 @@ const quotes = [
 
 app.get('/', (req, res) => {
 	const response = `
-  Hello World, Sahil!
-  <br/>
-  <h2>Today's thought:</h2>
-  <br/>
-  ${quotes[Math.floor(Math.random() * quotes.length)]}
-  `
-
+	  Hello World, Sahil!
+	  <br/>
+	  <h2>Today's thought:</h2>
+	  <br/>
+	  ${quotes[Math.floor(Math.random() * quotes.length)]}
+	  `
 	res.send(response)
 })
 

@@ -13,9 +13,7 @@ dk build . -t sahilrajput03/project1-img
 dk image push sahilrajput03/project1-img
 
 # I am deleting and recreating coz i want tag to be `latest` only:
-kc delete deploy project1-dep 2> /dev/null
-kc delete svc project1-svc 2> /dev/null
-kc delete ing project1-ing 2> /dev/null
+kc delete -f manifests/ 2> /dev/null
 
 # create/update deploy with ingress + clusterip service
 kc apply -f manifests/

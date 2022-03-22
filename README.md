@@ -577,3 +577,9 @@ Volume type - CSI: https://kubernetes.io/docs/concepts/storage/volumes/#csi
 kc describe po
 kc logs -f <TAB>
 ```
+
+# Using multiple yarml files in one file ?
+
+Src: https://stackoverflow.com/a/52255987/10012446
+
+tldr: You can do it by separating files with --- in any yaml file. Yo!!
