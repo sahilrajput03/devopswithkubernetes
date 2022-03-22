@@ -75,10 +75,15 @@ app.get('/', (req, res) => {
 	  Hello World, Sahil!
 	  <br/>
 	  <h2>Today's thought:</h2>
+	  ${quotes[Math.floor(Math.random() * quotes.length)]}
+	  <br/>
 	  <br/>
 	  <img src='/img' width="300" height="400" />
+	  <h3>Todos</h3>
+	  <input /> <button>Create TODO</button>
+	  <li>TODO 1</li>
+	  <li>TODO 2</li>
 	  <br/>
-	  ${quotes[Math.floor(Math.random() * quotes.length)]}
 	  `
 	res.send(response)
 })
