@@ -583,3 +583,112 @@ kc logs -f <TAB>
 Src: https://stackoverflow.com/a/52255987/10012446
 
 tldr: You can do it by separating files with --- in any yaml file. Yo!!
+
+- Multi port service: https://kubernetes.io/docs/concepts/services-networking/service/#multi-port-services
+
+- Read from a yaml file using `yq`
+
+`yq` A yaml command line reader, read about its usage @ https://github.com/kislyuk/yq
+
+```bash
+yq .metadata.name *
+# Output:
+"ex1-11-dep"
+"ex1-11-ingress"
+"pong-claim"
+"example-pv"
+"log-output-svc"
+"pingpong-svc"
+```
+
+## All about volumes @ k8 docs
+
+src: https://kubernetes.io/docs/concepts/storage/volumes/#out-of-tree-volume-plugins
+
+## Science of naming things...
+
+There are two hard things in computer science i.e., naming things and invalidating cache.
+
+So i recommend a good way to name different things a kub app like,
+
+```txt
+project=rocket
+
+# So names for other elements go like:
+APP_NAME				=		rocket-app
+VOLUME					=		rocket-vol
+VOLUME_CLAIM			=		rocket-claim
+IMAGE					=		rocket-img
+PERSISTENT_VOLUME		=		rocket-pv
+SERVICE					=		rocket-svc
+```
+
+## You can edit the deployment files as well
+
+```bash
+kubectl edit deploy project1-dep
+
+# This works as well:
+kubectl edit deploy
+
+# Docs @ https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/#kubectl-edit
+## FYI: the files is at path like:
+## FYI: the file is removed after closing the editor and next time when you run the command the name of file changes as well.
+# PATH: /tmp/kubectl-edit-2588926272.yaml
+# PATH: /tmp/kubectl-edit-2171599199.yaml
+```
+
+- kubectl cheatsheet: https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+
+```
+####### I GOT IP OF EACH POD'S CONTAINER VIA
+kc describe po container-name-here
+## log-output
+kubectl exec -it busybox1 -- wget -qO - 10.42.2.21:3000
+## pingpong
+kubectl exec -it busybox1 -- wget -qO - 10.42.1.6:3000
+#######
+
+###### making request using the service name:
+# making a request to a pod with a cluster ip service:
+kubectl exec -it busybox1 -- wget -qO - http://ex1-01-svc:2345
+
+# making a request to a pod with a cluter ip service:
+kubectl exec -it busybox1 -- wget -qO - http://pingpong-svc:2346
+```
+
+```
+# launch sh in a pod container:
+kubectl exec -it busybox1 -- sh
+kubectl exec -it ex1-01-dep-5c44574dfc-8mklq -- sh
+
+
+# FYI: /bin/bash didn't work in my own nodejs containers though:
+kubectl exec -it ex1-01-dep-5c44574dfc-8mklq -- /bin/bash
+```
+
+## learning
+
+If you see that your services are not linked up properly when looking in the ingress details:
+
+```bash
+kc describe ing project1-ing
+# then you probably have used the app name incorrectly, i.e., you have to use same app name in all the service.yml files:
+# I.e., I have two documents in single service.yaml file in ex
+yq .spec.selector.app service.yaml
+"project1"
+"project1"
+
+```
+
+## for debugging the nework you may use `busybox` (Part 2, ch 1)
+
+```bash
+ka https://raw.githubusercontent.com/kubernetes/kubernetes/master/hack/testdata/recursive/pod/pod/busybox.yaml
+
+# now you can use something like:
+kubectl exec -it busybox1 -- wget -qO - http://google.fi
+
+
+kubectl exec -it busybox1 -- sh
+```
