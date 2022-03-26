@@ -15,3 +15,6 @@ spec:
       containers:
         - name: hashgenerator
           image: jakousa/dwk-app1:b7fc18de2376da80ff0cfc72cf581a9f94d10e64
+      # USE below nodeSelector only if you have any node with such attribute set!
+      nodeSelector:
+        networkquality: excellent

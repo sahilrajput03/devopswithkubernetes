@@ -692,3 +692,157 @@ kubectl exec -it busybox1 -- wget -qO - http://google.fi
 
 kubectl exec -it busybox1 -- sh
 ```
+
+## Namespace accessing
+
+```bash
+# to get all element(pod, service, daemonset, deployment, replicaset, job) of all namespaces:
+kubectl get all --all-namespaces
+
+# to get all elements of a particular namespace say `kube-system` namespace, we can use -n option:
+kubectl get pods -n kube-system
+```
+
+- Creating a namespace is a oneliner, i.e.,
+
+```bash
+# creating new namespace
+kubectl create namespace example-namespace
+```
+
+You can define the namespace to use by adding it to the metadata section of the yamls, i.e.,
+
+```yaml
+---
+metadata:
+  namespace: example-namespace
+  name: example
+```
+
+- **If you're using a specific namespace constantly, you can set the namespace to be used by default with:**
+
+OR we can say that by default the active namespace is `default` i.e., if any yaml file doesn't have any namespace field in metadata then the currently active namespace will be used to create the resources, i.e., `default` which you can change using below command:
+
+```bash
+kubectl config set-context --current --namespace=<name>
+# by default active namespace is set to `default`
+
+## FAST IT!!!
+# src: https://github.com/ahmetb/kubectx
+# It has: kubectx + kubens: Power tools for kubectl
+# INSTALLATION on arch:
+sudo pacman -S kubectx
+
+## USAGE: My Alias ~::Sahil::
+kns
+
+### origianl clis
+kubectx
+kubenx
+
+
+###FYI: We can pass on cli about the namespace in which we want the resources to be created in via:
+kc apply -f myFileOrFolder --namespace=test
+
+###FYI: We may define the namespace inside the yaml file, which we already discussed doing it!
+
+##FYI: If you define namespace in the yaml file and use the `--namespace` to pass someother value then the command will fail. src: https://youtu.be/xpnZX3if9Tc?t=180
+
+
+### IMPORTANT:
+# resources created in a non active namespace won't be reflected via:
+kc get pods
+# coz any comand is run against the currently active namespace only which is `default` unless you change it!
+
+##SOLUTION: To get your pods you need to use namespace option:
+kc get pods --namespace=test
+```
+
+- If you want to list all the currectly available namespaces, you do:
+
+```bash
+kc get ns
+# or `kc get namespaces`
+# NAME              STATUS   AGE
+# default           Active   4d1h
+# kube-system       Active   4d1h
+# kube-public       Active   4d1h
+# kube-node-lease   Active   4d1h
+```
+
+## wow
+
+We can create service with same names in multiple namespaces!
+
+`kubectl` detects namespace if you don't specify it i.e., `<service name>` would point to same namespace.
+
+**But if you want to access a service from another namespace you need to do `<service-name>.<namespace>`.**
+
+## kubernetes network policies
+
+We can limit and isolate namespaces by using these, checkout video for this @ Kubernetes Best practises video from **Google Cloud Tech channel @ YT**.
+
+## kubernetes best practises
+
+[X] https://youtu.be/xpnZX3if9Tc , src: from Part2 Ch2 dwk.
+
+Playlist: https://www.youtube.com/playlist?list=PLIivdWyY5sqL3xfXz5xJvwzFW_tlQB_GB
+
+## label in ac
+
+```bash
+# label manually(you can add labels in the deployment file as well):
+kc label po busybox1 exampleLabel=smart
+# You can verify if the label is added by `kc describe po busybox1` and look for labels property.
+
+# we can query anything using labels using -l flag:
+kc get po -l app=hashresponse
+kc get describe -l app=hashresponse
+# .. more...
+# .. more...
+```
+
+## what is node ?
+
+node is the vm in which our cluster is running imo, like k3d thing..>>
+
+## Taints and Tolerations
+
+Node affinity is a property of Pods that attracts them to a set of nodes (either as a preference or a hard requirement). Taints are the opposite -- they allow a node to repel a set of pods.
+
+Src: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
+
+## Affinity and anti-affinity
+
+nodeSelector is the simplest way to constrain Pods to nodes with specific labels. Affinity and anti-affinity expands the types of constraints you can define.
+
+Src: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
+
+## labelling and unlabelling a node
+
+```bash
+# here we are unlabelling networkquality label:
+kubectl label nodes k3d-k3s-default-agent-1 --overwrite networkquality=
+```
+
+# `Sops` and `age`
+
+age is recommended over pgp @ https://github.com/mozilla/sops#22encrypting-using-age
+
+SOPS: sops is an editor of encrypted files that supports YAML, JSON, ENV, INI and BINARY formats and encrypts with AWS KMS, GCP KMS, Azure Key Vault, age, and PGP.
+
+- Mozilla sops: https://github.com/mozilla/sops
+
+age: age is a simple, modern and secure file encryption tool, format, and Go library.
+
+- age: https://github.com/FiloSottile/age
+
+## `secrets` and play
+
+```bash
+# View secret names, this doesn't show the values though:
+kc get secrets
+
+# Delete a secret
+kc delete secrets pixabay-apikey
+```
