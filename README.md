@@ -1,5 +1,7 @@
 # Devops with kubernetes
 
+kubernetes has 86.8k stars and 1L+ commits.
+
 Website: https://devopswithkubernetes.com/
 
 History of Kubernetes (wikipedia): https://en.wikipedia.org/wiki/Kubernetes#History
@@ -800,6 +802,10 @@ kc get po -l app=hashresponse
 kc get describe -l app=hashresponse
 # .. more...
 # .. more...
+
+## Delete a label
+# Deleting `exampleLabel` from pod:
+kc label po busybox1 exampleLabel-
 ```
 
 ## what is node ?
@@ -845,4 +851,43 @@ kc get secrets
 
 # Delete a secret
 kc delete secrets pixabay-apikey
+```
+
+## kubernetes hierarchy
+
+**Kubernetes cluster is a group of nodes!**
+
+**A node can have a list of deployments.**
+
+**A deployment controls a list of pods.**
+
+**A pod has a list of containers.**
+
+**A kubelet is an agent that runs on each node in the cluster. It makes sure that containers are running in a pod.**
+
+## Get nodes
+
+```bash
+kc get nodes
+```
+
+## Using jsonpath in `-o` in `kubectl`
+
+JSONPath Support: https://kubernetes.io/docs/reference/kubectl/jsonpath/
+
+```bash
+kubectl get pods -o jsonpath='{.apiVersion}'
+
+# You can inspect if the value is correct by actually printing whols josn object via:
+kubectl get pods -o json
+```
+
+## Defining environment variable for a pod
+
+https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/
+
+## lol
+
+```bash
+kc get pod -o json | jiq
 ```

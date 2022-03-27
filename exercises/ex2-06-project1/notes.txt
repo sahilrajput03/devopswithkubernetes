@@ -1,0 +1,19 @@
+# What am i doing?
+
+I created a configmap.yaml file and linked it to deployment.yaml file.
+- `configmap.yaml` file includes my environemnt values.
+- I  am not mounting my env file to volume at all.
+
+# Consider your deployment is up.
+
+Now if you change values in environment varaiables in `configmap.yaml`, then first you need to apply new `configmap.yaml` file via:
+
+```
+kc apply -f manifests/configmap.yaml
+# OR SIMPLY kc apply -f manifests/ WOULD WORK SAME!
+
+# then you need to delete the pod:
+kc delete po project1-dep-<TAB>
+
+# NOW you have the latest variables which you just set in `configmap.yaml` file.
+```

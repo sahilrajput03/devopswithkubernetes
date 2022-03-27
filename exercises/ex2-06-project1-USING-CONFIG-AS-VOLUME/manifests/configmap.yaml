@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-configmap
+data:
+  # serverconfig: |
+  #   maxplayers=12
+  #   difficulty=2
+  dotenv: |
+    message1=Hello Superman!
+    message2=Hello world!
+    message3=Boom!
+    message4=yo!!
+
+# file template taken directly from:https://devopswithkubernetes.com/part-2/3-configuring-applications

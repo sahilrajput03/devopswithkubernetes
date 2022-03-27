@@ -1,0 +1,22 @@
+# Checking /config/dotenv values:
+
+kc exec -it project1-dep-6fb5878754-b2wmb -- sh
+
+```bash
+/usr/src/app # cat /config/dotenv
+message1=Hello Superman!
+message2=Hello world!
+```
+
+
+### LEARN: How to update configmap in container now?
+
+Changing the configmap.yaml file and running below comand:
+
+```bash
+kc apply -f manifest/configmap.yaml
+# this would update the volume instantly and you may check
+# if the container now via:
+cat /config/dotenv
+# AND IT WOULD REFLECT THE CHANGES YOU made in configmap.yaml file.
+```

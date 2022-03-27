@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project1-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project1
+  template:
+    metadata:
+      labels:
+        app: project1
+    spec:
+      volumes:
+        - name: project1-vol
+          persistentVolumeClaim:
+            claimName: project1-claim
+
+        # Naming our volume with name: `dotenv-vol`
+        - name: dotenv-vol
+          configMap:
+            # Provide the name of the ConfigMap you want to mount.
+            name: example-configmap
+            # An array of keys from the ConfigMap to create as files
+            items:
+              - key: 'dotenv'
+                path: 'dotenv'
+            #   ^^^^ This is file path IMO ~Sahil
+            ###### LEARN: You may add other keys and respective file name below:
+            # - key: "user-interface.properties"
+            #   path: "user-interface.properties"
+      containers:
+        - name: project1
+          image: sahilrajput03/project1-img
+          volumeMounts:
+            - name: project1-vol
+              mountPath: /usr/src/app/files
+
+            # Linking new volume instead of using env key. (ALSO, YOU CAN USE BOTH WAYS TOO without an conflict issues!). Src: https://kubernetes.io/docs/concepts/configuration/configmap/
+            - name: dotenv-vol
+              mountPath:
+                '/config'
+                # This would be a directory ~Sahil
+                # LEARN: And files: `dotenv` (other if any) would be available inside this.
+              # I am using this path now, inspired from official k8 docs ^^^^ link above.
+              readOnly: true
+
+          # OLD WAY OF USING configmap.yaml keys:
+          # env:
+          #   # Define the environment variable
+          #   - name: DOTENV # Notice that the case is different here from the key name in the ConfigMap.
+          #     valueFrom:
+          #       configMapKeyRef:
+          #         name: example-configmap # This value is from my comfigMapFile.yaml/.metadata.name ~Sahil
+          #         key: dotenv # This value is from my comfigMapFile.yaml/.data.KEY_NAME ~Sahil
+
+          # Another container array item:
+        - name: ex2-02
+          image: sahilrajput03/ex2-02-img
