@@ -1,0 +1,27 @@
+# Notes
+
+Source: Part 2, Ch 4.
+
+First run the stateful set and when its up, you may try backing it up with the other `backup-job`.
+
+```bash
+ka ./manifest/statefulset.yaml
+# wait til our postgres container is up made by the stateful set...
+
+# when ready, use below job to backup:
+ka ./manifest/backup-job.yaml
+
+
+### verify by
+kubectl get jobs
+kc logs -f backup--<TAB-TO-AUTOCOMPLETE-NAME>
+
+
+### also
+kc get pod
+# Output:
+# NAME                  READY   STATUS      RESTARTS       AGE
+# pod/busybox1          1/1     Running     38 (17m ago)   2d22h
+# pod/postgres-ss-0     1/1     Running     0              2m4s
+# pod/backup--1-ckljg   0/1     Completed   0              47s
+```
