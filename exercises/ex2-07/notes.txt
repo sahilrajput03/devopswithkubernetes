@@ -1,3 +1,0 @@
-pg url: postgresql://postgres:passw0rd@postgres-project-svc:5432/postgres
-
-

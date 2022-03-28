@@ -1,0 +1,7 @@
+# I did this exercise with mongodb!
+
+FYI: You need to replcate `kind: Deployment` to `kind: StatefulSet` to enable statefullness to our pod!
+
+## official mongodb implementation in k8 docs
+
+https://kubernetes.io/blog/2017/01/running-mongodb-on-kubernetes-with-statefulsets/

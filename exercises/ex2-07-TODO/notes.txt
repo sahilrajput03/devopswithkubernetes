@@ -1,0 +1,19 @@
+# Encoding secrets:
+
+- btoa is used to ecode text to base64 strings:
+
+```js
+btoa('postgresql://postgres:pa$$word@postgres-project-svc:5432/postgres-db1')
+# Output: 'cG9zdGdyZXNxbDovL3Bvc3RncmVzOnBhJCR3b3JkQHBvc3RncmVzLXByb2plY3Qtc3ZjOjU0MzIvcG9zdGdyZXMtZGIx'
+POSTGRES_URL=cG9zdGdyZXNxbDovL3Bvc3RncmVzOnBhJCR3b3JkQHBvc3RncmVzLXByb2plY3Qtc3ZjOjU0MzIvcG9zdGdyZXMtZGIx
+
+
+btoa('pa$$word')
+'cGEkJHdvcmQ='
+POSTGRES_PASSWORD=cGEkJHdvcmQ=
+```
+
+To enter to postgres db:
+```bash
+kc exec -it redis-ss-0 -c db -- sh
+```

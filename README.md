@@ -909,9 +909,27 @@ A persistent volume (PV) is a piece of storage in the Kubernetes cluster, while 
 ## stateful sets
 
 ```bash
+kc delete statefulsets.apps redis-ss
 
 kc get statefulset
 # Output:
 NAME       READY   AGE
 redis-ss   2/2     32s
 ```
+
+## Exec into a particular container in a pod ?
+
+Src: https://stackoverflow.com/a/39979989/10012446
+
+```
+kc exec -it redis-ss-0 -c db -- sh
+
+# Here I got `redis-ss-0` from: .metadata.name (and appended -0 bcoz i have two replicasets defined in .spec.replicas )
+# Here I got `db` from: .spec.template.spec.containers[1].name
+```
+
+## moritz solutions
+
+https://github.com/movd/devopswithkubernetes
+
+##

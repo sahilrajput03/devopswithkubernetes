@@ -17,7 +17,7 @@ kind: StatefulSet
 metadata:
   name: redis-ss
 spec:
-  serviceName: redis-svc
+  serviceName: postgres-svc
   replicas: 2
   selector:
     matchLabels:
@@ -31,17 +31,20 @@ spec:
         - name: redisfiller
           image: jakousa/dwk-app5:54203329200143875187753026f4e93a1305ae26
         - name: db
-          image: postgres:10-alpine
+          image:
+            postgres:10-alpine
+            # tag to to test later(IMO): 14.2
+            # course material uses: 13.0 though!(check their requirements too setting)
           env:
             - name: PGDATA
               value: /var/lib/postgresql/data/pgdata
+            # TEMPORARILY SETTING URL and PASSWORD SECRETS DIRECTLY >>>>>>>>>>>>>>>>
+            # DB SETUP (user=postgres, pass=pa$$word, db=postgres-db1)
             - name: POSTGRES_URL
-              value: cG9zdGdyZXNxbDovL3Bvc3RncmVzOnBhc3N3MHJkQHBvc3RncmVzLXByb2plY3Qtc3ZjOjU0MzIvcG9zdGdyZXM
-            # value: cG9zdGdyZXNxbDovL3Bvc3RncmVzOnBhc3N3MHJkQHBvc3RncmVzLXByb2plY3Qtc3ZjOjU0MzIvcG9zdGdyZXM=
-            # db setup requires the passw0rd the rest stays default (user/db: 'postgres')
+              value: cG9zdGdyZXNxbDovL3Bvc3RncmVzOnBhJCR3b3JkQHBvc3RncmVzLXByb2plY3Qtc3ZjOjU0MzIvcG9zdGdyZXMtZGIx
             - name: POSTGRES_PASSWORD
-              value: cGFzc3cwcmQ=
-          # temporarily setting secrets directly!!^^^
+              value: cGEkJHdvcmQ=
+              # <<<<<<<<<<<<<<<<<<<<<<<<<<
           # envFrom:
           #   - secretRef:
           #       name: postgres-pw-url
@@ -50,11 +53,12 @@ spec:
               containerPort: 5432
           volumeMounts:
             # mountpoint to store pg data
-            - name: postgres-project-data
+            - name: postgres-vol
               mountPath: /var/lib/postgresql/data/pgdata
+
   volumeClaimTemplates:
     - metadata:
-        name: postgres-project-data
+        name: postgres-vol
       spec:
         accessModes: ['ReadWriteOnce']
         storageClassName: local-path
