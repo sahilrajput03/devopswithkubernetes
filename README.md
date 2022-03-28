@@ -146,6 +146,10 @@ pd
 ```bash
 # view logs
 kubectl logs -f hashgenerator-dep-6965c5c7-2pkxc
+
+###### view logs of a particular container in a pod
+# Here redis-ss-0 is pod and redis is a container name:
+kubectl logs -f redis-ss-0 redis
 ```
 
 Pushing to docker hub:
@@ -868,7 +872,9 @@ kc delete secrets pixabay-apikey
 ## Get nodes
 
 ```bash
-kc get nodes
+kc get node
+
+kc describe node
 ```
 
 ## Using jsonpath in `-o` in `kubectl`
@@ -890,4 +896,22 @@ https://kubernetes.io/docs/tasks/inject-data-application/define-environment-vari
 
 ```bash
 kc get pod -o json | jiq
+```
+
+## persistenr volume
+
+src: https://rancher.com/docs/k3s/latest/en/storage/
+
+When deploying an application that needs to retain data, you’ll need to create persistent storage. Persistent storage allows you to store application data external from the pod running your application. This storage practice allows you to maintain application data, even if the application’s pod fails.
+
+A persistent volume (PV) is a piece of storage in the Kubernetes cluster, while a persistent volume claim (PVC) is a request for storage. For details on how PVs and PVCs work, refer to the official Kubernetes documentation on storage.
+
+## stateful sets
+
+```bash
+
+kc get statefulset
+# Output:
+NAME       READY   AGE
+redis-ss   2/2     32s
 ```
