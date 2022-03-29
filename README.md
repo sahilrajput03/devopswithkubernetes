@@ -909,6 +909,7 @@ A persistent volume (PV) is a piece of storage in the Kubernetes cluster, while 
 ## stateful sets
 
 ```bash
+# delete a stateful set
 kc delete statefulsets.apps redis-ss
 
 kc get statefulset
@@ -932,4 +933,23 @@ kc exec -it redis-ss-0 -c db -- sh
 
 https://github.com/movd/devopswithkubernetes
 
-##
+## Using helm
+
+```bash
+helm search hub mongo
+
+# Adding promethus
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+# Adding stable
+helm repo add stable https://charts.helm.sh/stable
+
+# install kube-prometheus-stack
+kubectl create namespace prometheus
+helm install prometheus-community/kube-prometheus-stack --generate-name --namespace prometheus
+
+# add graphana
+helm repo add grafana https://grafana.github.io/helm-charts
+
+##### >>>>  You can remove almost everything with helm delete [name] with the name found via the helm list command.  #####
+```

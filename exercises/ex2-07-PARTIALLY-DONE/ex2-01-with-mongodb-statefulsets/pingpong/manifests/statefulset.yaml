@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+# kind: Deployment
+kind: StatefulSet
+metadata:
+  name: pingpong-dep
+spec:
+  serviceName: mongo1-svc
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pingpong-app
+
+  template:
+    metadata:
+      labels:
+        app: pingpong-app
+    spec:
+      containers:
+        # Container 1
+        - name: ex1-01
+          image: sahilrajput03/pingpong-img
+        # Container 2
+        - name: db
+          image: mongo
+          ports:
+            - name: db
+              containerPort: 27017
+          volumeMounts:
+            # mountpoint to store pg data
+            - name: mongo-vol
+              mountPath: /data/db
+
+  volumeClaimTemplates:
+    - metadata:
+        name: mongo-vol
+      spec:
+        accessModes: ['ReadWriteOnce']
+        storageClassName: local-path
+        resources:
+          requests:
+            storage: 1Gi
+---
+apiVersion: v1 # Includes the Service for lazyness
+kind: Service
+metadata:
+  name: mongo1-svc
+  labels:
+    app: pingpong-app
+spec:
+  ports:
+    - port: 27017
+      name: web
+  clusterIP: None
+  selector:
+    app: pingpong-app
