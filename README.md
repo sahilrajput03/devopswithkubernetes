@@ -953,3 +953,41 @@ helm repo add grafana https://grafana.github.io/helm-charts
 
 ##### >>>>  You can remove almost everything with helm delete [name] with the name found via the helm list command.  #####
 ```
+
+## install `helm`, `prometheus`, `grafana, `loki`:
+
+```bash
+helm repo add prometheus-community https://prometheus-community.github.io/helm-chartshelm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add stable https://charts.helm.sh/stable
+
+
+kubectl create namespace prometheus
+helm install prometheus-community/kube-prometheus-stack --generate-name --namespace prometheus
+
+
+kubectl get po -n prometheus # We port-forward graphana to 3000.
+# I have alias to it, i.e., `startGrafana` in ~/.bash_aliases
+kubectl -n prometheus port-forward kube-prometheus-stack-<USE_YOUR_ID>-grafana-<USE_YOUR_ID_> 3000
+# Now we can open grafana @ http://localhost:3000/ locally.
+
+# Install loki charts: (Grafana has bunch of charts @ https://github.com/grafana/helm-charts/tree/main/charts)
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+
+# install loki in namespace `loki-stack`
+kubectl create namespace loki-stack
+helm upgrade --install loki --namespace=loki-stack grafana/loki-stack
+kubectl get all -n loki-stack # We analyse that loki is running at port 3100
+# IMPORTANT: TODO: NOW TO USE LOKI in graphana, we must add loki with URL as http://loki.loki-stack:3100
+#
+```
+
+```
+# test application to test terminal logs in lens:
+kc apply -f https://raw.githubusercontent.com/kubernetes-hy/material-example/master/app5/manifests/statefulset.yaml
+```
+
+
+# google cloud pricing ?
+
+https://www.coursera.org/learn/gcp-cost-management
