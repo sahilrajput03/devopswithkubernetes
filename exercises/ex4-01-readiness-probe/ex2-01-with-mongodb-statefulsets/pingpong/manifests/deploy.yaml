@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+# kind: StatefulSet
+metadata:
+  name: pingpong-dep
+spec:
+  # TODO: remove below line!!
+  # serviceName: mongo1-svc
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pingpong-app
+
+  template:
+    metadata:
+      labels:
+        app: pingpong-app
+    spec:
+      containers:
+        # Container 1
+        # readinessProbe is added in ex4-01
+        # >>> COMMENTING BELOW TO TEST releasing of a pod in case of faulty db(part of exercise ex4-01).
+        - name: ex1-01
+          image: sahilrajput03/pingpong-img
+          readinessProbe:
+            initialDelaySeconds: 10 # Initial delay until the readiness is tested
+            periodSeconds: 5 # How often to test
+            httpGet:
+              path: /healthz
+              port: 3000
+        # Container 2
+        # Change-LOG1:mongo-db container is removed, and statefulset is converted to deployment.
+        # Change-LOG2:mongo-db container is moved to stateful set.
+        # Reason: This is bcoz access to a pod is banned (even from the containers inside the pod till the redinessProbe is successful, so inshort if I place db container here {along with making this deployment as a statefulsets} then our container ex1-01 simply doesn't connect to the db container via the service!)
+        # src: (There is a Question dedicated to this problem i.e., the container doens't connect to servie if we enable readinessProbe to one of the container with such a setup) comment on this answer: https://stackoverflow.com/a/57677707/10012446
+
+---
+apiVersion: v1 # Includes the Service for lazyness
+kind: Service
+metadata:
+  name: mongo1-svc
+  labels:
+    app: pingpong-app
+spec:
+  ports:
+    - port: 27017
+      name: web
+  clusterIP:
+    None
+    # fyi: Any service uses this selector to know which pod it should connect to!, src:(comment on this answer) https://stackoverflow.com/a/57666034/10012446
+  selector:
+    app: pingpong-app
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pingpong-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: pingpong-app
+  ports:
+    - port: 2346
+      protocol: TCP
+      targetPort: 3000

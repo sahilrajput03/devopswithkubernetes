@@ -1,3 +1,4 @@
+<!-- prettier-ignore -->
 # Devops with kubernetes
 
 kubernetes has 86.8k stars and 1L+ commits.
@@ -448,6 +449,8 @@ kubectl describe deployment nginx-deployment
 
 # Watch the status of the rollout (rs is alias for relicasets):
 kubectl get rs -w
+# or similarly, (-w is alias for --watch)
+kc get svc --watch
 ```
 
 ## install nginx-ingress
@@ -987,7 +990,10 @@ kubectl get all -n loki-stack # We analyse that loki is running at port 3100
 kc apply -f https://raw.githubusercontent.com/kubernetes-hy/material-example/master/app5/manifests/statefulset.yaml
 ```
 
-
 # google cloud pricing ?
 
 https://www.coursera.org/learn/gcp-cost-management
+
+## cluster info ?
+
+You can check the cluster info with kubectl cluster-info to verify it's pointing in the right direction.

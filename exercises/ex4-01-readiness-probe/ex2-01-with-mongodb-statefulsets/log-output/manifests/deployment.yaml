@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ex1-01-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ex1-01
+  template:
+    metadata:
+      labels:
+        app: ex1-01
+    spec:
+      containers:
+        - name: ex1-01
+          image: sahilrajput03/ex1-01
+          readinessProbe:
+            initialDelaySeconds: 10 # Initial delay until the readiness is tested
+            periodSeconds: 5 # How often to test
+            httpGet:
+              path: /healthz
+              port: 3000

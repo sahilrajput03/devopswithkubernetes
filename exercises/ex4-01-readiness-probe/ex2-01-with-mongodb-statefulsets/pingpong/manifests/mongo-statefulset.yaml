@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+# kind: Deployment
+kind: StatefulSet
+metadata:
+  name: mongo-pingpong-ss
+spec:
+  serviceName: mongo1-svc
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pingpong-app
+
+  template:
+    metadata:
+      labels:
+        app: pingpong-app
+    spec:
+      containers:
+        - name: db
+          image: mongo
+          ports:
+            - name: db
+              containerPort: 27017
+          volumeMounts:
+            # mountpoint to store pg data
+            - name: mongo-vol
+              mountPath: /data/db
+
+  volumeClaimTemplates:
+    - metadata:
+        name: mongo-vol
+      spec:
+        accessModes: ['ReadWriteOnce']
+        storageClassName: local-path
+        resources:
+          requests:
+            storage: 1Gi
+

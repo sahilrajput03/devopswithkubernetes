@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ex1-01-ing
+  annotations:
+    # UNCOMMENT BELOW LINE TO USE NGINX-INGRESS.
+    # nginx.ingress.kubernetes.io/rewrite-target: /
+    # Rewrite docs @ ingress-nginx: https://kubernetes.github.io/ingress-nginx/examples/rewrite/
+    # same doc@github @ https://github.com/kubernetes/ingress-nginx/blob/main/docs/examples/rewrite/README.md
+    # MAKE SURE YOU HAVE nginx-ingress installed: docs: https://kubernetes.github.io/ingress-nginx/deploy/#quick-start
+spec:
+  # UNCOMMENT BELOW LINE TO USE NGINX-INGRESS.
+  # ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ex1-01-svc
+                port:
+                  number: 2345
+
+          - path: /pingpong
+            pathType: Prefix
+            backend:
+              service:
+                name: pingpong-svc
+                port:
+                  number: 2346
+# A issue with path matching on nginx-ingress: https://stackoverflow.com/questions/71424259/why-url-re-writing-is-not-working-when-i-do-not-use-slash-at-the-end/71425542?noredirect=1#comment126306768_71425542

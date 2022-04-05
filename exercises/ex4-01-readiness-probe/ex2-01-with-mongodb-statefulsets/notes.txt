@@ -1,0 +1,4 @@
+# Readme
+
+- I made pong a stateful set with mongo1-svc.
+- This project is copied directly from ex2-01 solution ! and then i added mongodb support to it!
