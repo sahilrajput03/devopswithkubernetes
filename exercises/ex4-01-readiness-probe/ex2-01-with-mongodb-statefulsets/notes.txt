@@ -1,4 +1,17 @@
 # Readme
 
-- I made pong a stateful set with mongo1-svc.
-- This project is copied directly from ex2-01 solution ! and then i added mongodb support to it!
+Replicating desired behaviour required in ex-4-01 ?
+
+```bash
+ka pingpong/manifests/deploy.yaml ^C
+ka log-output/manifests/
+
+
+# Now you may check the result from `kcwatch` and you would notice that all pods are up but none of them are ready coz the `readinessProbe` check for both pingpong and ex-1-01 
+(logouput) apps are failing!
+
+# NOW to get these pods up, you just need to up our database, by
+ka pingpong/manifests/mongo-statefulset.yaml
+
+# and you'll notice that everything woul be ready now and fuctionally work as well!!
+```

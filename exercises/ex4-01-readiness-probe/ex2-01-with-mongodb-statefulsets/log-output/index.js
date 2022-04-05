@@ -12,15 +12,16 @@ app.get('/healthz', async (req, res) => {
 	try {
 		// i am making health of this pod (actually container) dependent on the pingpong-pod (actually pingpong-container).
 		const data = await axios.get('http://pingpong-svc:2346/healthz')
+		console.log('request @ ', req.path, ', response::', data.data)
 		// const data = await axios.get('http://localhost:3005/healthz')
 		return res.status(200).send('ok')
 	} catch (e) {
-		console.log(`:::(path: /healthz)::Error::${String(e)}::Failed to get count from pingpong container(possibly bcoz of db connection error - { intentional test for ex4-01 })!`)
+		console.log('request @ ', req.path, `@catch:${String(e)}`)
 		return res.status(500).json('health is not good :(   CRY !')
 	}
 })
 
-app.get('*', async (req, res) => {
+app.get('/', async (req, res) => {
 	// todo: make request @ below addr to fetch the pongs count:
 	// http://pingpong-svc:2346
 	try {
@@ -31,9 +32,10 @@ app.get('*', async (req, res) => {
 		<br/>
 			${String(data)}`)
 	} catch (e) {
-		const err = 'shit got error: ' + String(e)
+		// console.log(e)
+
+		const err = 'Got error: ' + String(e.message)
 		console.log(err)
-		console.log(e)
 		return res.send(err)
 	}
 
@@ -55,7 +57,8 @@ const longHash = () => {
 const printString = () => {
 	log = 'Good Luck -' + new Date().toISOString() + ' ' + longHash()
 
-	console.log(log)
+	//TODO: undow below loggg.. URGENT ex4-01
+	// console.log(log)
 	setTimeout(printString, 5000)
 }
 

@@ -5,7 +5,8 @@ metadata:
   name: mongo-pingpong-ss
 spec:
   serviceName: mongo1-svc
-  replicas: 2
+  replicas: 1
+  # replicas: 2
   selector:
     matchLabels:
       app: pingpong-app
@@ -36,3 +37,19 @@ spec:
           requests:
             storage: 1Gi
 
+---
+apiVersion: v1 # Includes the Service for lazyness
+kind: Service
+metadata:
+  name: mongo1-svc
+  labels:
+    app: pingpong-app
+spec:
+  ports:
+    - port: 27017
+      name: web
+  clusterIP:
+    None
+    # fyi: Any service uses this selector to know which pod it should connect to!, src:(comment on this answer) https://stackoverflow.com/a/57666034/10012446
+  selector:
+    app: pingpong-app

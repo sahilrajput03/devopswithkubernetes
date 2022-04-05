@@ -6,7 +6,8 @@ metadata:
 spec:
   # TODO: remove below line!!
   # serviceName: mongo1-svc
-  replicas: 2
+  replicas: 1
+  # replicas: 2
   selector:
     matchLabels:
       app: pingpong-app
@@ -34,22 +35,6 @@ spec:
         # Reason: This is bcoz access to a pod is banned (even from the containers inside the pod till the redinessProbe is successful, so inshort if I place db container here {along with making this deployment as a statefulsets} then our container ex1-01 simply doesn't connect to the db container via the service!)
         # src: (There is a Question dedicated to this problem i.e., the container doens't connect to servie if we enable readinessProbe to one of the container with such a setup) comment on this answer: https://stackoverflow.com/a/57677707/10012446
 
----
-apiVersion: v1 # Includes the Service for lazyness
-kind: Service
-metadata:
-  name: mongo1-svc
-  labels:
-    app: pingpong-app
-spec:
-  ports:
-    - port: 27017
-      name: web
-  clusterIP:
-    None
-    # fyi: Any service uses this selector to know which pod it should connect to!, src:(comment on this answer) https://stackoverflow.com/a/57666034/10012446
-  selector:
-    app: pingpong-app
 ---
 apiVersion: v1
 kind: Service

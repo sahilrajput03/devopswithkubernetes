@@ -13,7 +13,7 @@ dk build . -t sahilrajput03/ex1-01
 dk image push sahilrajput03/ex1-01
 
 # I am deleting and recreating coz i want tag to be `latest` only:
-kc delete deploy ex1-01-dep 2> /dev/null
+kc delete -f manifests/ 2> /dev/null
 
 # update deploy with ingress + cluterIP service
 kc apply -f manifests/

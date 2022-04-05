@@ -40,8 +40,9 @@ let counter = 0
 let failedDbMessg = {message: 'failed to connect to db ...'}
 
 app.get('/healthz', (req, res) => {
+	console.log('req@/healthz, pingpong', healthy)
 	if (!healthy) {
-		console.log('db is not connected::from::health point hit!!')
+		console.log(failedDbMessg)
 		return res.status(500).json(failedDbMessg)
 	}
 
@@ -64,7 +65,7 @@ app.get('/count', async (req, res) => {
 
 let filter = {title: 'pongs_count'}
 
-app.get('*', async (req, res) => {
+app.get('/', async (req, res) => {
 	let counter
 
 	// to get the document:
