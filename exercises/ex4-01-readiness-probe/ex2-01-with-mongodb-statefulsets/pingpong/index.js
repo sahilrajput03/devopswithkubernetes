@@ -50,6 +50,7 @@ app.get('/healthz', (req, res) => {
 })
 
 app.get('/count', async (req, res) => {
+	console.log('req@', req.path)
 	// note: I am not incrementing counter here.
 
 	const pongs = await PongsM.findOne({title: 'pongs_count'})
@@ -65,7 +66,7 @@ app.get('/count', async (req, res) => {
 
 let filter = {title: 'pongs_count'}
 
-app.get('/', async (req, res) => {
+app.get('*', async (req, res) => {
 	let counter
 
 	// to get the document:

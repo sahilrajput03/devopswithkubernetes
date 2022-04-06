@@ -29,6 +29,7 @@ spec:
             httpGet:
               path: /healthz
               port: 3000
+
         # Container 2
         # Change-LOG1:mongo-db container is removed, and statefulset is converted to deployment.
         # Change-LOG2:mongo-db container is moved to stateful set.

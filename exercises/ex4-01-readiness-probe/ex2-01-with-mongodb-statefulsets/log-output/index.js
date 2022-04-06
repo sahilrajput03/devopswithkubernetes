@@ -58,8 +58,8 @@ const printString = () => {
 	log = 'Good Luck -' + new Date().toISOString() + ' ' + longHash()
 
 	//TODO: undow below loggg.. URGENT ex4-01
-	// console.log(log)
-	setTimeout(printString, 5000)
+	console.log(log)
+	setTimeout(printString, 8000)
 }
 
 printString()

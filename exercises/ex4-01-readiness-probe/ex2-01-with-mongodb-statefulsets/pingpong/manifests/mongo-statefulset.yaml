@@ -9,12 +9,12 @@ spec:
   # replicas: 2
   selector:
     matchLabels:
-      app: pingpong-app
+      app: mongo-pingpong-app
 
   template:
     metadata:
       labels:
-        app: pingpong-app
+        app: mongo-pingpong-app
     spec:
       containers:
         - name: db
@@ -42,14 +42,14 @@ apiVersion: v1 # Includes the Service for lazyness
 kind: Service
 metadata:
   name: mongo1-svc
-  labels:
-    app: pingpong-app
+  # labels:
+  #   app: pingpong-app
+  # uncommenting above labels in favor of moritz configuration!
 spec:
   ports:
     - port: 27017
       name: web
-  clusterIP:
-    None
-    # fyi: Any service uses this selector to know which pod it should connect to!, src:(comment on this answer) https://stackoverflow.com/a/57666034/10012446
+  clusterIP: None
   selector:
-    app: pingpong-app
+    app: mongo-pingpong-app
+    # ^^^ fyi: Any service uses this selector to know which pod it should connect to!, src:(comment on this answer) https://stackoverflow.com/a/57666034/10012446

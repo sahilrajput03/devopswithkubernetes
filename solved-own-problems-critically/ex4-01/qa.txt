@@ -1,0 +1,11 @@
+Q. Can someone please help me on this weird logs like connection error on the right side terminal..
+
+I am trying to ex4-01 and i am facing issue like this.., is there somethng common to this kind of problem .. I am trying to figure out this problem from a long time..
+
+@ manifest files and code @ here .
+
+Ans. Fixed the problem, the problem was that I was not using distinct labels and selector labels for my database statefulsets.
+
+I didn't know that this could be a problem though!
+
+Now that I assined a distinct separate label to my statefulset(for mongo) `mongo-pingpong-app` using `.spec.template.metadata.label`
