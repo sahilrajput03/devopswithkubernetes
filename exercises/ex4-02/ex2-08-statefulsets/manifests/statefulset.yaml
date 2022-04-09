@@ -19,7 +19,7 @@ spec:
           persistentVolumeClaim:
             claimName: project1-claim
       containers:
-        # Container 1
+        # CONTAINER 1
         - name: project1
           image: sahilrajput03/project1-img
           volumeMounts:
@@ -33,7 +33,7 @@ spec:
                   name: example-configmap # This value is from my comfigMapFile.yaml/.metadata.name ~Sahil
                   key: dotenv # This value is from my comfigMapFile.yaml/.data.KEY_NAME ~Sahil
 
-        # Container 3
+        # CONTAINER 3
         - name: db
           image: mongo
           ports:
@@ -94,14 +94,26 @@ spec:
           persistentVolumeClaim:
             claimName: project1-claim
       containers:
-        # Container 2
+        # CONTAINER 2
         - name: ex2-02
           image: sahilrajput03/ex2-02-img
           env:
             - name: DB_URI
+              # CORRECT VALUES-
               value: mongodb://mongo-svc:27017/db-project1
+
+              # FAULTY CONNECTION VALUE TO TEST IF THE READINESSPROBE WORKS! (EX4-02)
+              # value: mongodb://FAULTY_CONNECTION:27017/db-projec1
           readinessProbe:
             initialDelaySeconds: 10 # Initial delay until the readiness is tested
+            periodSeconds: 5 # How often to test
+            httpGet:
+              path: /healthz
+              port:
+                3001
+
+          livenessProbe:
+            initialDelaySeconds: 20 # Initial delay until the liveness is tested
             periodSeconds: 5 # How often to test
             httpGet:
               path: /healthz

@@ -13,7 +13,15 @@ spec:
                 name: project1-svc
                 port:
                   number: 2345
+
           - path: /api/todos
+            pathType: Prefix
+            backend:
+              service:
+                name: ex2-02-svc
+                port:
+                  number: 2346
+          - path: /crash
             pathType: Prefix
             backend:
               service:

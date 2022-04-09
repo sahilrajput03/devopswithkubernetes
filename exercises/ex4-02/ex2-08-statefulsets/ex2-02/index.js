@@ -6,8 +6,9 @@ const mongoose = require('mongoose')
 
 let healthy = false
 let failedDbMessg = {message: 'failed to connect to db ...'}
+let log = console.log
 
-console.log('db uri ~sahil: ', process.env.DB_URI)
+log('db uri ~sahil: ', process.env.DB_URI)
 
 // This was required to do ex4-01
 let connectWithRetry = function () {
@@ -16,12 +17,12 @@ let connectWithRetry = function () {
 	mongoose
 		.connect(process.env.DB_URI)
 		.then(() => {
-			console.log(':::::::: +> connected to mongodb SUCCESSFUL!')
+			log(':::::::: +> connected to mongodb SUCCESSFUL!')
 			healthy = true
 		})
 		.catch((e) => {
 			healthy = false // this would work like cherry on top say in case your `db container` or `db service` is down in any distant future time at any instant in future so setting `healthy` as false will make the regular `readinessProbe` test fail which depends on the variable `healthy`.
-			console.log(':::::: -> connection to mongodb UNsuccessful!')
+			log(':::::: -> connection to mongodb UNsuccessful!')
 
 			console.error(':::INFO_IMPORTANT:::retrying in 5 sec:::')
 			setTimeout(connectWithRetry, 5000)
@@ -38,32 +39,39 @@ const NoteM = mongoose.model('notes', {note: String})
 // TODO: fix the port!
 const PORT = 3001
 const app = express()
-app.listen(PORT, () => console.log(`::::server is listening @ ${PORT}`))
+app.listen(PORT, () => log(`::::server is listening @ ${PORT}`))
 app.use(cors())
 app.use(express.json())
 
 app.get('/healthz', (req, res) => {
-	console.log('req@/healthz, pingpong', healthy)
+	log('req@/healthz, pingpong', healthy)
 	if (!healthy) {
-		console.log(failedDbMessg)
+		log(failedDbMessg)
 		return res.status(500).json(failedDbMessg)
 	}
 
 	return res.status(200).send('ok')
 })
 
-let log
+// you can visit : http://localhost:8081/crash from the host computer to crash the server intentionall to test `livenessProbe`.
+app.get('/crash', (req, res) => {
+	log('>>>Intentionally crash server to test livenessProbe, i.e., this container/pod will be restarted when noticed by livenessProbe anytime soon.')
+	res.send('crashing the app usin `process.exit(1)` and livenessProbe will restart the container.')
+
+	process.exit(1)
+})
+
 
 // now saving to database.
 
 app.post('/api/todos', async (req, res) => {
 	const todo = req.body.todo
-	console.log('received todo: ', todo)
+	log('received todo: ', todo)
 
 	const note = new NoteM({note: todo})
-	// note.save().then(() => console.log('notes added!'))
+	// note.save().then(() => log('notes added!'))
 	const noteDoc = await note.save()
-	console.log('saved : ', noteDoc.note)
+	log('saved : ', noteDoc.note)
 
 	const notes = await NoteM.find({})
 
@@ -72,7 +80,7 @@ app.post('/api/todos', async (req, res) => {
 
 app.get('/api/todos', async (req, res) => {
 	const notes = await NoteM.find({})
-	console.log(
+	log(
 		'all notes',
 		notes.map((doc) => doc.note)
 	)
