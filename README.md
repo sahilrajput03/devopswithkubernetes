@@ -1117,3 +1117,19 @@ SOLUTION: So this very problem can be solved by alivenessProbe coz it will resta
 
 - LEARN: OUTCOME: Using `readinessProbe` and `livenessProbe` are complementary to each other and having them both is the best solution bcoz each does distinct work i.e., `readinessProbe` manages the READY state and `livenessProbe` is responsible for restarting the container/pod anytime its unhealthy.
 
+
+## VERY BASIC: How deployment works ?
+
+- Say you update the code of appliction say `index.js` server, then you start the deployment for the first time via `ka manifest/`.
+- Now anytime you update the code in `index.js` file then you for deployment to update you need to rebuild the image(say we are building image with same older tag i.e., `latest`).
+- You update the deployment via `kd manifest` and then doing `ka manifest/`.
+
+Q. What is `kd` and why do we need to do it? Why can't we simply `ka manifest/` without `kd manifest/` ?
+
+FYI: Considering below image building of image with tag `latest` tag and pushed it to docker registry as well.
+
+The reason is that we do this coz whenever we do `ka manifest/` after we rebuild the image with same tag (say `latest`) `kubectl` doesn't update the deployment.
+
+DONT' BE STUPID TO DELETE AND APPLY DEPLOYMENT AGAIN: We can use `kubectl roll restart deployemnt my-deployment-name` and this is actually a good way to deploy a new image coz this will keep the older container running till the new container is ready. YO!!
+
+**But a legitimate and officially recommended way to deploy new images is by using tags like: `0.0.1` instead of plain `latest` tag. And by using a different tag from older one and editing this in `deployment.yaml` file with the new tag we can then relase new deployment simply by `kc apply -f manifest/` without using `kc delete -f manifest/deployment.yaml` or `kc delete -f manifest/` at all. YO!!**
