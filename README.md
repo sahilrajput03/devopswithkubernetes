@@ -1094,6 +1094,7 @@ kc rollout undo -h
 # i made `kge` alias for `kc get events`
 kge
 
+# IMPORATANT IMPORTANT IMPORATANT:
 # To get pod specific info, you may use
 kge POD_NAME
 ```
@@ -1111,14 +1112,14 @@ Problem2: So, consider you have a endpoint which is faulty and which causes serv
 SOLUTION: So this very problem can be solved by alivenessProbe coz it will restart the container as soon as it get crashed or say our `healthz` endpoint is down( since the whole server crashed in that server, the `/healthz` endpoint of the container will throw 500 internal server error). RESTARTING THE CONTAINER FIXES THE ANONYMOUS SERVER CRASHING AT ANY URGENT SERVER FAILURE.
 
 
-- LEARN: `readinessProbe` also consinuously check for health for the container/pod for the whole life of the container/pod. (readinessProbe simply stops access to the container(whole pod) only) if the healthz endpoint get faulty by marking the pod as 0/REPLICA_COUNT in the READY column in `kc get all` ouput, thats why `livenessProbe` is good fit for the case. The reason readinessProbe works good for two usecases: 1. Initial deployment check if the new container is healthy and if healthy then only marks as READY thus requests won't be redirected to that pod till its ready and before its ready all the requests are routed to older working pods/containers only. 2. It gets really useful say we have 3 pods running and one of them crashed bcoz of some error and then that po/container would be marked as UNREADY and thus request won't be mapped to that container till the time it gets READY (which will happen only if `livenessProbe` is implemented as well). 
+- LEARN: `readinessProbe` also continuously check for health for the container/pod for the whole life of the container/pod. (readinessProbe simply stops access to the container(whole pod) only) if the healthz endpoint get faulty by marking the pod as <0/REPLICA_COUNT> in the READY column in `kc get all` ouput, thats why `livenessProbe` is good fit for the case. The reason readinessProbe works good for two usecases: 1. Initial deployment check if the new container is healthy and if healthy then only marks as READY thus requests won't be redirected to that pod till its ready and before its ready all the requests are routed to older working pods/containers only. 2. It gets really useful say we have 3 pods running and one of them crashed bcoz of some error and then that po/container would be marked as UNREADY and thus request won't be mapped to that container till the time it gets READY (which will happen only if `livenessProbe` is implemented as well). 
 
 - LEARN: `livenessProbe` restart the container anytime in future if at anytime the the server's software (say nodejs's express server) crashes. THIS IS REALLY IMPORTANT THING TO DO IN PRODUCTION! I implemented a `/crash` endpoint using ingress which connects to `ex2-02` exercise solution. So, you can actually go to `http://localhost:8081/crash` endpoint which will crash the container completely thus `livenessProbe` will assist and restart the container/pod instantly (yikes) and `readinessProbe` will simply mark the container unready.
 
 - LEARN: OUTCOME: Using `readinessProbe` and `livenessProbe` are complementary to each other and having them both is the best solution bcoz each does distinct work i.e., `readinessProbe` manages the READY state and `livenessProbe` is responsible for restarting the container/pod anytime its unhealthy.
 
 
-## VERY BASIC: How deployment works ?
+## VERY BASIC(IMPORATANT IMPORTANT IMPORTANT): How deployment works ?
 
 - Say you update the code of appliction say `index.js` server, then you start the deployment for the first time via `ka manifest/`.
 - Now anytime you update the code in `index.js` file then you for deployment to update you need to rebuild the image(say we are building image with same older tag i.e., `latest`).
@@ -1132,4 +1133,4 @@ The reason is that we do this coz whenever we do `ka manifest/` after we rebuild
 
 DONT' BE STUPID TO DELETE AND APPLY DEPLOYMENT AGAIN: We can use `kubectl roll restart deployemnt my-deployment-name` and this is actually a good way to deploy a new image coz this will keep the older container running till the new container is ready. YO!!
 
-**But a legitimate and officially recommended way to deploy new images is by using tags like: `0.0.1` instead of plain `latest` tag. And by using a different tag from older one and editing this in `deployment.yaml` file with the new tag we can then relase new deployment simply by `kc apply -f manifest/` without using `kc delete -f manifest/deployment.yaml` or `kc delete -f manifest/` at all. YO!!**
+**But a legitimate and officially recommended way to deploy new images is by using tags like: `0.0.1` instead of plain `latest` tag. And thus editing the image tag in `deployment.yaml` file with the new tag we can then relase new deployment simply by `kc apply -f manifest/` without using `kc delete -f manifest/deployment.yaml` or `kc delete -f manifest/` at all. YO!!**
