@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mapper-dep
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: mapper
+  template:
+    metadata:
+      labels:
+        app: mapper
+    spec:
+      containers:
+        - name: mapper
+          image: jakousa/dwk-app9-mapper:0bcd6794804c367684a9a79bb142bb4455096974
+          env:
+            - name: NATS_URL
+              value: nats://my-nats:4222
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fetcher-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fetcher
+  template:
+    metadata:
+      labels:
+        app: fetcher
+    spec:
+      containers:
+        - name: fetcher
+          image: jakousa/dwk-app9-fetcher:0bcd6794804c367684a9a79bb142bb4455096974
+          env:
+            - name: NATS_URL
+              value: nats://my-nats:4222
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: saver-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: saver
+  template:
+    metadata:
+      labels:
+        app: saver
+    spec:
+      containers:
+        - name: saver
+          image: jakousa/dwk-app9-saver:0bcd6794804c367684a9a79bb142bb4455096974
+          env:
+            - name: NATS_URL
+              value: nats://my-nats:4222
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: monitoring-nats
+  namespace: prometheus
+  labels:
+    release:  kube-prometheus-stack-1649524549
+      # only ^^^ this need this release label from below command (linux utils rocks).
+      # TO get this you can run `script-get-release-label.sh` script.
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: nats
+      # app: my-nats
+  endpoints:
+    - interval: 10s
+      path: /metrics
+      port: metrics
+  namespaceSelector:
+    matchNames:
+      - default

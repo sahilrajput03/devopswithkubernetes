@@ -1,0 +1,120 @@
+apiVersion: apps/v1
+kind: StatefulSet
+# kind: Deployment
+metadata:
+  name: project1-ss
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: project1
+  serviceName: mongo-svc
+  template:
+    metadata:
+      labels:
+        app: project1
+    spec:
+      volumes:
+        - name: project1-vol
+          persistentVolumeClaim:
+            claimName: project1-claim
+      containers:
+        # CONTAINER 1
+        - name: project1
+          image: sahilrajput03/project1-img
+          volumeMounts:
+            - name: project1-vol
+              mountPath: /usr/src/app/files
+          env:
+            # Define the environment variable
+            - name: DOTENV # Notice that the case is different here from the key name in the ConfigMap.
+              valueFrom:
+                configMapKeyRef:
+                  name: example-configmap # This value is from my comfigMapFile.yaml/.metadata.name ~Sahil
+                  key: dotenv # This value is from my comfigMapFile.yaml/.data.KEY_NAME ~Sahil
+
+        # CONTAINER 3
+        - name: db
+          image: mongo
+          ports:
+            - name: db
+              containerPort: 27017
+          volumeMounts:
+            # mountpoint to store pg data
+            - name: mongo-vol
+              mountPath: /data/db
+          # FOR ENV:
+          # env:
+          #   - name: PGDATA
+          #     value: /var/lib/postgresql/data/pgdata
+          # envFrom:
+          #   - secretRef:
+          #       name: postgres-pw-url
+
+  volumeClaimTemplates:
+    - metadata:
+        name: mongo-vol
+      spec:
+        accessModes: ['ReadWriteOnce']
+        storageClassName: local-path
+        resources:
+          requests:
+            storage: 1Gi
+---
+apiVersion: v1 # Includes the Service for lazyness
+kind: Service
+metadata:
+  name: mongo-svc
+  labels:
+    app: project1
+spec:
+  ports:
+    - port: 27017
+      name: web
+  clusterIP: None
+  selector:
+    app: project1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ex2-02-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ex2-02-app
+  template:
+    metadata:
+      labels:
+        app: ex2-02-app
+    spec:
+      volumes:
+        - name: project1-vol
+          persistentVolumeClaim:
+            claimName: project1-claim
+      containers:
+        # CONTAINER 2
+        - name: ex2-02
+          image: sahilrajput03/ex2-02-img
+          env:
+            - name: DB_URI
+              # CORRECT VALUES-
+              value: mongodb://mongo-svc:27017/db-project1
+
+              # FAULTY CONNECTION VALUE TO TEST IF THE READINESSPROBE WORKS! (EX4-02)
+              # value: mongodb://FAULTY_CONNECTION:27017/db-projec1
+          readinessProbe:
+            initialDelaySeconds: 10 # Initial delay until the readiness is tested
+            periodSeconds: 5 # How often to test
+            httpGet:
+              path: /healthz
+              port:
+                3001
+
+          livenessProbe:
+            initialDelaySeconds: 20 # Initial delay until the liveness is tested
+            periodSeconds: 5 # How often to test
+            httpGet:
+              path: /healthz
+              port: 3001

@@ -1,0 +1,5 @@
+# Readme
+
+- To get the release label execute the `script-get-release-label.sh`.
+- To get the setup up, simly run aliases `startGrafana`, `startPrometheusManaged` and `startNats`.
+- You  may directly use the `json` file in `json-for-grafana-dashboard.json` file to create dashboard in grafana directly!

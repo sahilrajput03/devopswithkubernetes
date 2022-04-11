@@ -938,7 +938,10 @@ https://github.com/movd/devopswithkubernetes
 
 ## Using helm
 
+###  install `helm`, `prometheus`, `grafana, `loki`:
+
 ```bash
+# Using helm search
 helm search hub mongo
 
 # Adding promethus
@@ -951,27 +954,20 @@ helm repo add stable https://charts.helm.sh/stable
 kubectl create namespace prometheus
 helm install prometheus-community/kube-prometheus-stack --generate-name --namespace prometheus
 
-# add graphana
-helm repo add grafana https://grafana.github.io/helm-charts
+##### >>>>  You can remove almost everything with `helm delete [name]` with the name found via the helm list command.  #####
 
-##### >>>>  You can remove almost everything with helm delete [name] with the name found via the helm list command.  #####
-```
+# add graphana, official install guide: https://grafana.com/docs/grafana/latest/installation/kubernetes/
+kc get po -n prometheus # OR Simply use below command to get it:
+kc -n prometheus get po | grep grafana | awk '{print $1}'
 
-## install `helm`, `prometheus`, `grafana, `loki`:
-
-```bash
-helm repo add prometheus-community https://prometheus-community.github.io/helm-chartshelm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm repo add stable https://charts.helm.sh/stable
-
-
-kubectl create namespace prometheus
-helm install prometheus-community/kube-prometheus-stack --generate-name --namespace prometheus
-
-
-kubectl get po -n prometheus # We port-forward graphana to 3000.
-# I have alias to it, i.e., `startGrafana` in ~/.bash_aliases
+# We port-forward graphana i.e, pod `kube-prometheus-stack-x-grafana-y` to 3000 of host.
 kubectl -n prometheus port-forward kube-prometheus-stack-<USE_YOUR_ID>-grafana-<USE_YOUR_ID_> 3000
+# OR YOU CAN USE THE DYNAMIC COMMAND(BASH ROCKS, ***>>>>I aliased it startGrafana, yikes!!<<<<****):
+kubectl -n prometheus port-forward $(kc -n prometheus get po | grep grafana | awk '{print $1}') 3000
 # Now we can open grafana @ http://localhost:3000/ locally.
+
+# If you had installed prometheus simply via lens, you can connect to prometheus using `startPrometheus` alias in your shell:
+alias startPrometheus="kp -n lens-metrics prometheus-0 9090"
 
 # Install loki charts: (Grafana has bunch of charts @ https://github.com/grafana/helm-charts/tree/main/charts)
 helm repo add grafana https://grafana.github.io/helm-charts
@@ -1134,3 +1130,31 @@ The reason is that we do this coz whenever we do `ka manifest/` after we rebuild
 DONT' BE STUPID TO DELETE AND APPLY DEPLOYMENT AGAIN: We can use `kubectl roll restart deployemnt my-deployment-name` and this is actually a good way to deploy a new image coz this will keep the older container running till the new container is ready. YO!!
 
 **But a legitimate and officially recommended way to deploy new images is by using tags like: `0.0.1` instead of plain `latest` tag. And thus editing the image tag in `deployment.yaml` file with the new tag we can then relase new deployment simply by `kc apply -f manifest/` without using `kc delete -f manifest/deployment.yaml` or `kc delete -f manifest/` at all. YO!!**
+
+## Canary release
+
+Qutoing from material (part 4 ch 1):
+
+> The above strategy will first move 25% (setWeight) of the pods to a new version (in our case 1 pod) after which it will wait for 30 seconds, move to 50% of pods and then wait for 30 seconds until every pod is updated. A
+
+**Using `rollout.yaml`:**
+
+1. Delete all resources fist.
+2. Apply `rollout.yaml`, all pods will be up instantly.
+3. Change image tag version in `rollout.yaml` file and apply `rollout.yaml` file to take canary rollout release format into account.
+
+But if you run rollout.yaml file for the first time it'll release all containers instantly! Yo!
+
+## You can encode/decode base64 with build in installed by linux
+
+
+```bash
+# google it do on your own...:
+base64 --decode
+```
+
+# log into your natbox
+
+```bash
+alias ken='ke -n default my-nats-box-d6bd784b-txccl -- sh -l'
+```

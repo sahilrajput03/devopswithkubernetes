@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: flaky-update
-          image: jakousa/dwk-app8:v4
+          image: jakousa/dwk-app8:v1
           readinessProbe:
             initialDelaySeconds: 10 # Initial delay until the readiness is tested
             periodSeconds: 5 # How often to test

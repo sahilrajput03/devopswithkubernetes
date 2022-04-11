@@ -1,0 +1,7 @@
+scalar(sum(kube_pod_info{namespace="prometheus", created_by_kind="StatefulSet"}))
+
+Copied from moritz solution:
+https://github.com/movd/devopswithkubernetes#exercise-403-prometheus
+
+fyi: below query gives tons of data:
+kube_pod_info
