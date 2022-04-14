@@ -1158,3 +1158,17 @@ base64 --decode
 ```bash
 alias ken='ke -n default my-nats-box-d6bd784b-txccl -- sh -l'
 ```
+
+## Using flux
+
+```bash
+# Checks prerequisites
+flux check --pre
+
+# import secrets file with
+. secrets
+
+# configure flux to link with github
+flux bootstrap github --owner=sahilrajput03 --repository=kube-cluster-dwk --personal --private=false
+```
+
