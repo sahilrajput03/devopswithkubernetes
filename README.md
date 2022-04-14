@@ -1161,6 +1161,9 @@ alias ken='ke -n default my-nats-box-d6bd784b-txccl -- sh -l'
 
 ## Using flux
 
+
+flux official site: https://fluxcd.io/
+
 ```bash
 # Checks prerequisites
 flux check --pre
@@ -1170,6 +1173,8 @@ flux check --pre
 
 # configure flux to link with github
 flux bootstrap github --owner=sahilrajput03 --repository=kube-cluster-dwk --personal --private=false
+## ^^ This command creates a new repository in your accout if that repo doesn't exist already. Also, >>
+## IMPORTANT(Deploying flux repo to a new cluster): If the repo exists already, it'll clone the repo internally and will use it apply the configuration to currently running cluster.
 
 # flux docs for files configuration: https://fluxcd.io/docs/components/source/gitrepositories/
 
@@ -1177,3 +1182,11 @@ flux bootstrap github --owner=sahilrajput03 --repository=kube-cluster-dwk --pers
 # My flux configuration repo linked with my local cluster @ https://github.com/sahilrajput03/kube-cluster-dwk
 ```
 
+
+## :TODO Learn about kustomize
+
+AT https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/
+
+```bash
+# TODO: do test some kustomization files yourself!
+```
