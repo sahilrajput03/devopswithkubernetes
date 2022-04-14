@@ -88,4 +88,5 @@ jobs:
         add: '4-gitops/manifests/kustomization.yaml'
         message: New version release for gitops-app ${{ github.sha }}
       env:
+        # ~Sahil, This is a builtin secret, you don't need to add this token at all. Src: https://docs.github.com/en/github-ae@latest/actions/security-guides/automatic-token-authentication
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

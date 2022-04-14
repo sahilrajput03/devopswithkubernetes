@@ -1172,5 +1172,8 @@ flux check --pre
 flux bootstrap github --owner=sahilrajput03 --repository=kube-cluster-dwk --personal --private=false
 
 # flux docs for files configuration: https://fluxcd.io/docs/components/source/gitrepositories/
+
+
+# My flux configuration repo linked with my local cluster @ https://github.com/sahilrajput03/kube-cluster-dwk
 ```
 
