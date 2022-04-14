@@ -1,5 +1,13 @@
 name: Release 4-gitops-app
 
+  ##### ABOUT `flux`
+  # FYI: I have my flux configuration repo @ https://github.com/sahilrajput03/kube-cluster-dwk.
+  # which was cretead automatically with command: 
+  # `flux bootstrap github --owner=sahilrajput03 --repository=kube-cluster-dwk --personal --private=false`
+  #
+  # Also, in above repo I added two files `example.yml` and `example-kustomization.yml` files to poll docker hub for new images at interval of 10 minutes continuously.
+  #####
+
 on:
   push:
     branches:
