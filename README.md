@@ -1170,5 +1170,7 @@ flux check --pre
 
 # configure flux to link with github
 flux bootstrap github --owner=sahilrajput03 --repository=kube-cluster-dwk --personal --private=false
+
+# flux docs for files configuration: https://fluxcd.io/docs/components/source/gitrepositories/
 ```
 
