@@ -32,6 +32,7 @@ sops -e -a age15vf84g080au93lmww53zvklvvh8g5l9kfng56mqvlzn9zm7vjatqpe7hwe secret
 # Later when any developer pulls from github he need to have the key.txt file to be
 # able to regenerate secret.yaml file again, by:
 export SOPS_AGE_KEY_FILE=$(pwd)/key.txt
+# OR
 export SOPS_AGE_KEY=myPrivateKeyText 
 # NOTE: You must use only one of above environment variable to set access to private key for sops.
 sops -d secret.enc.yaml > secret.yaml
