@@ -57,3 +57,22 @@ When decrypting a file with the corresponding identity, sops will look for a tex
 # Decrypt and kubectl apply -f on the fly??
 sops -d secret.enc.yaml | kubectl apply -f -
 ```
+
+**Encrypting decrypting `.env` file:**
+
+Source: https://github.com/mozilla/sops/issues/404#issuecomment-444906254
+
+When you encrypt a `.env` type file, all # comments are also encrypted as well. Yo!
+
+NOTE: **MAKE SURE TO UPDATE YOUR ENCRYPTED .env files whenever you make changes to it.**
+
+```bash
+# Encryption (uses SOPS_AGE_RECIPIENTS )
+sops -e .env > enc.env
+
+# IMPORTANT: This will overwrite your .env file so use with caution.
+# Decryption  (uses ~/sops/age/keys.txt by default)
+sops -d enc.env > .env
+```
+
+Applied `.env` encryption @ [https://github.com/sahilrajput03/telegram-bot-requests](https://github.com/sahilrajput03/telegram-bot-requests).
