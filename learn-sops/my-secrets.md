@@ -1,3 +1,6 @@
+# Learn about sops
+
+## base64 encoding
 My pixabay api (https://pixabay.com/api/docs/) key in secrets and keepass safe.
 
 Its base 64 encoded version can be obtained by:
@@ -8,6 +11,8 @@ echo -n $PIXABAY_TOKEN | base64
 ```
 
 FYI: You can check 64 base decoded text via browser as well, i.e., `btoa()` for encryption and `atob()` for decryption. I.e., atob('MY_BASE64_ENCODED') should give the original api key in browser console.
+
+## Keys generation, encryption and decryption
 
 ```bash
 #### KEYS GENERATION
