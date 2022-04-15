@@ -10,9 +10,11 @@ echo -n $PIXABAY_TOKEN | base64
 FYI: You can check 64 base decoded text via browser as well, i.e., `btoa()` for encryption and `atob()` for decryption. I.e., atob('MY_BASE64_ENCODED') should give the original api key in browser console.
 
 ```bash
-#### ENCRYPTION
+#### KEYS GENERATION
 age-keygen -o key.txt
-# now using public key from above file or stdout simply:
+
+#### ENCRYPTION
+# Using public key from above file (or copy from stdout simply and use it in the -a option):
 sops -e -a age15vf84g080au93lmww53zvklvvh8g5l9kfng56mqvlzn9zm7vjatqpe7hwe secret.yaml > secret.enc.yaml
 # FYI: -a is an alias for --age and -e is alias for --encrypt (FROM `sops -h`)
 # FYI: You can pass one or more public keys via `--age` option while encrypting, which are separated by commans.
@@ -40,7 +42,6 @@ $XDG_CONFIG_HOME/sops/age/keys.txt
 %AppData%\sops\age\keys.txt
 $HOME/Library/Application
 ```
-
 
 When decrypting a file with the corresponding identity, sops will look for a text file name keys.txt located in a sops subdirectory of your user configuration directory. On Linux, this would be $XDG_CONFIG_HOME/sops/age/keys.txt.
 
