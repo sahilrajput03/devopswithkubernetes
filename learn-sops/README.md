@@ -58,7 +58,7 @@ When decrypting a file with the corresponding identity, sops will look for a tex
 sops -d secret.enc.yaml | kubectl apply -f -
 ```
 
-**Encrypting decrypting `.env` file:**
+#### Encrypting decrypting `.env` file
 
 Source: https://github.com/mozilla/sops/issues/404#issuecomment-444906254
 
