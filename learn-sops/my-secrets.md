@@ -14,6 +14,8 @@ FYI: You can check 64 base decoded text via browser as well, i.e., `btoa()` for 
 
 ## Keys generation, encryption and decryption
 
+Sops Docs: Encryption: https://github.com/mozilla/sops#22encrypting-using-age
+
 ```bash
 #### KEYS GENERATION
 age-keygen -o key.txt
@@ -37,8 +39,6 @@ export SOPS_AGE_KEY=myPrivateKeyText
 # NOTE: You must use only one of above environment variable to set access to private key for sops.
 sops -d secret.enc.yaml > secret.yaml
 ```
-
-Sops Docs: encryption: https://github.com/mozilla/sops#22encrypting-using-age
 
 **FYI: From docs, the age file should be better be places at conventional path so its picked automatically when decrypting.**
 
