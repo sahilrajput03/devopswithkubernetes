@@ -32,8 +32,15 @@ sops -d secret.enc.yaml > secret.yaml
 
 Sops Docs: encryption: https://github.com/mozilla/sops#22encrypting-using-age
 
-**FYI: From docs the age file should be better be places at conventional path so its picked automatically when decrypting.**
-Src: https://github.com/mozilla/sops#encrypting-using-age
+**FYI: From docs, the age file should be better be places at conventional path so its picked automatically when decrypting.**
+
+```bash
+# src: https://github.com/mozilla/sops#encrypting-using-age
+$XDG_CONFIG_HOME/sops/age/keys.txt
+%AppData%\sops\age\keys.txt
+$HOME/Library/Application
+```
+
 
 When decrypting a file with the corresponding identity, sops will look for a text file name keys.txt located in a sops subdirectory of your user configuration directory. On Linux, this would be $XDG_CONFIG_HOME/sops/age/keys.txt.
 
