@@ -15,11 +15,11 @@ age-keygen -o key.txt
 # now using public key from above file or stdout simply:
 sops -e -a age15vf84g080au93lmww53zvklvvh8g5l9kfng56mqvlzn9zm7vjatqpe7hwe secret.yaml > secret.enc.yaml
 # FYI: -a is an alias for --age and -e is alias for --encrypt (FROM `sops -h`)
+# FYI: You can pass one or more public keys via `--age` option while encrypting, which are separated by commans.
 # FYI: -a value can be used from environment variable as well via i.e.,
 # export SOPS_AGE_RECIPIENTS=pubKey1[,pubKey2][,pubKey3]
 # Refer my `multiple-public-keys-encryption-for-teams` in `others` folder for more info.
 #
-# FYI: You can pass one or more public keys via `--age` option while encrypting, which are separated by commans.
 
 
 #### DECRYPTION
