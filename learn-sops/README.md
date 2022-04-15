@@ -10,7 +10,7 @@ echo -n $PIXABAY_TOKEN | base64
 # note: I imported secrets file which has api keys in them in my .bashrc file.
 ```
 
-FYI: You can check 64 base decoded text via browser as well, i.e., `btoa()` for encryption and `atob()` for decryption. I.e., atob('MY_BASE64_ENCODED') should give the original api key in browser console.
+FYI: You can check 64 base decoded text via browser as well, i.e., `btoa()` for encryption and `atob()` for decryption. I.e., `atob('MY_BASE64_ENCODED')` should give the original api key in browser console.
 
 ## Keys generation, encryption and decryption
 
