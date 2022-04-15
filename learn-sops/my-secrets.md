@@ -19,7 +19,6 @@ sops -e -a age15vf84g080au93lmww53zvklvvh8g5l9kfng56mqvlzn9zm7vjatqpe7hwe secret
 # FYI: -a value can be used from environment variable as well via i.e.,
 # export SOPS_AGE_RECIPIENTS=pubKey1[,pubKey2][,pubKey3]
 # Refer my `multiple-public-keys-encryption-for-teams` in `others` folder for more info.
-#
 
 
 #### DECRYPTION
