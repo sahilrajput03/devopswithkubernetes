@@ -76,3 +76,9 @@ sops -d enc.env > .env
 ```
 
 Applied `.env` encryption @ [https://github.com/sahilrajput03/telegram-bot-requests](https://github.com/sahilrajput03/telegram-bot-requests).
+
+**For named encrypted files**
+
+```bash
+sops -e secrets.env > secrets.enc.env
+```
