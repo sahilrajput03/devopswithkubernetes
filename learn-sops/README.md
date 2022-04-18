@@ -1,7 +1,7 @@
 # Learn about sops
 
 ## base64 encoding
-My pixabay api (https://pixabay.com/api/docs/) key in secrets and keepass safe.
+My pixabay api (https://pixabay.com/api/docs/) key in `devopswithkubernetes/secrets` file and keepass safe.
 
 Its base 64 encoded version can be obtained by:
 
