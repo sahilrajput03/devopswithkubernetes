@@ -1,5 +1,5 @@
 node_modules
-secrets
+secrets.env
 
 # You may clone the repo @ https://github.com/sahilrajput03/kube-cluster-dwk in this same folder to work closely.
 kube-cluster-dwk
