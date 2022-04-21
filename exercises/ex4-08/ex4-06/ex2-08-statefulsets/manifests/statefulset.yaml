@@ -122,7 +122,7 @@ spec:
                 3001
 
           livenessProbe:
-            initialDelaySeconds: 20 # Initial delay until the liveness is tested
+            initialDelaySeconds: 50 # Initial delay until the liveness is tested
             periodSeconds: 5 # How often to test
             httpGet:
               path: /healthz

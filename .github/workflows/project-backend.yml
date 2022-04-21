@@ -62,7 +62,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         builder: ${{ steps.buildx.outputs.name }}
-        context: 4-gitops/app
+        context: ./exercises/ex4-08/ex4-06/ex2-08-statefulsets/ex2-02
         platforms: ${{ steps.prep.outputs.platforms }}
         push: ${{ steps.prep.outputs.push }}
         tags: ${{ steps.prep.outputs.tags }}
