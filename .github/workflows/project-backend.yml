@@ -1,4 +1,4 @@
-name: Release project-frontend
+name: Release project-backend
 
 on:
   push:
