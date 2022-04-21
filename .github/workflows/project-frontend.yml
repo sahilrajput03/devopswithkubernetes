@@ -78,7 +78,7 @@ jobs:
 
     # Update yamls
     - name: Update yamls
-      working-directory: exercises/ex4-08/ex4-06/ex2-08-statefulsets/ex2-02/manifests
+      working-directory: exercises/ex4-08/ex4-06/ex2-08-statefulsets/manifests
       run: |-
         # originally # kustomize edit set image IMAGE_PLACEHOLDER=jakousa/dwk-4-gitops-app:${{ github.sha }}
         kustomize edit set image IMAGE_PLACEHOLDER=sahilrajput03/project1-img:${{ github.sha }}
