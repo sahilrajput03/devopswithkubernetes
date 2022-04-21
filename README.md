@@ -1203,3 +1203,11 @@ kc delete -k .
 
 # FYI: IMPORTANT: kc edit -k is not a feature yet.., I made an issue for this: https://github.com/kubernetes/kubernetes/issues/109598
 ```
+
+## Important FLUX knowledge
+
+You must use `namespace: default` under `metadata` field in every resource in yaml files when you need to apply those to flux system coz otherwise flux throws error (which you can see by `flux logs -f` command) i.e.,
+
+```txt
+2022-04-21T21:45:56.478Z error Kustomization/project-gitops-app.flux-system - Reconciliation failed after 518.639339ms, next try in 2m0s Service/ex2-02-svc namespace not specified, error: the server could not find the requested resource
+```
