@@ -1,5 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+# We can point to other kustomization directories, src: https://stackoverflow.com/a/67543731/10012446
 resources:
 - statefulset.yaml
 - configmap.yaml
@@ -7,15 +8,14 @@ resources:
 - ingress.yaml
 - persistentvolume.yaml
 - service.yaml
-# We can point to other kustomization directories, src: https://stackoverflow.com/a/67543731/10012446
 - ../broadcaster-with-manifests/manifests
 
 # You can check if the below values are utilized properly via `kc kustomize` command. YO!
-images:
-- name: PROJECT_FRONTEND
-  newName: sahilrajput03/project1-img
-  newTag: latest
 
+images:
 - name: PROJECT_BACKEND
   newName: sahilrajput03/ex2-02-img
+  newTag: 0d2252d5d4449a9c7d02aa8502cfa1f845ef3a76
+- name: PROJECT_FRONTEND
+  newName: sahilrajput03/project1-img
   newTag: latest
