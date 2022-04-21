@@ -8,7 +8,7 @@ resources:
 - ingress.yaml
 - persistentvolume.yaml
 - service.yaml
-# - ../broadcaster-with-manifests/manifests
+- ../broadcaster-with-manifests/manifests
 
 # You can check if the below values are utilized properly via `kc kustomize` command. YO!
 
