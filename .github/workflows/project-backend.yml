@@ -81,7 +81,7 @@ jobs:
       working-directory: exercises/ex4-08/ex4-06/ex2-08-statefulsets/manifests
       run: |-
         # originally # kustomize edit set image IMAGE_PLACEHOLDER=jakousa/dwk-4-gitops-app:${{ github.sha }}
-        kustomize edit set image IMAGE_PLACEHOLDER=sahilrajput03/ex2-02-img:${{ github.sha }}
+        kustomize edit set image PROJECT_BACKEND=sahilrajput03/ex2-02-img:${{ github.sha }}
 
     # Commit and push
     - uses: EndBug/add-and-commit@v7
