@@ -6,4 +6,4 @@ resources:
 images:
 - name: IMAGE_BROADCASTER
   newName: sahilrajput03/broadcaster-project
-  # newTag: latest
+  newTag: latest

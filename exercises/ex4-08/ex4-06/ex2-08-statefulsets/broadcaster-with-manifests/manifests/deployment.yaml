@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: project-broadcaster-dep
   # namespace: project
+  namespace: default
 spec:
   # replicas: 1
   replicas: 3
