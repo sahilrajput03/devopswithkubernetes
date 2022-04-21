@@ -16,6 +16,7 @@ images:
 - name: PROJECT_BACKEND
   newName: sahilrajput03/ex2-02-img
   newTag: 0d2252d5d4449a9c7d02aa8502cfa1f845ef3a76
+
 - name: PROJECT_FRONTEND
   newName: sahilrajput03/project1-img
   newTag: latest
