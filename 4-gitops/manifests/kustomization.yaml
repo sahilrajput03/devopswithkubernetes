@@ -5,4 +5,4 @@ resources:
 images:
 - name: IMAGE_PLACEHOLDER
   newName: sahilrajput03/dwk-4-gitops-app
-  newTag: ba4fea12c011f90a75ca7f22771c4a1ff292977c
+  newTag: 5d93e5979574d1d3dd35b790bf950ab32384d79a
