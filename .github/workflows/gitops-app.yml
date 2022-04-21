@@ -25,6 +25,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    # To  use simple build process with just docker i.e., without the qemu and `setup-build-action` action, you must look @ https://devopswithkubernetes.com/part-4/3-gitops .
     - name: Prepare
       id: prep
       run: |
@@ -42,6 +43,7 @@ jobs:
           echo ::set-output name=docker_image::${DOCKER_IMAGE}
         fi
         echo ::set-output name=platforms::${PLATFORMS}
+
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
       with:

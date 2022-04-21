@@ -1186,7 +1186,20 @@ flux bootstrap github --owner=sahilrajput03 --repository=kube-cluster-dwk --pers
 ## :TODO Learn about kustomize
 
 AT https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/
+Official Repo: https://github.com/kubernetes-sigs/kustomize
 
 ```bash
-# TODO: do test some kustomization files yourself!
+# Having kustomization.yaml file in current directory, you can run below command to check the generated output by kustomization:
+kc kustomize
+
+# use kustomization.yaml file from a different directory:
+kc kustomize <kustomization_directory>
+
+# To apply resources from a kustomize.yaml file with --kustomize or -k flag:
+kc apply -k .
+
+# delete resources using a kustomization file (in current directory)
+kc delete -k .
+
+# FYI: IMPORTANT: kc edit -k is not a feature yet.., I made an issue for this: https://github.com/kubernetes/kubernetes/issues/109598
 ```
