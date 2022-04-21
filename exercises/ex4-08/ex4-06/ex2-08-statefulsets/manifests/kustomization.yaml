@@ -14,8 +14,8 @@ resources:
 images:
 - name: PROJECT_FRONTEND
   newName: sahilrajput03/project1-img
-  newTag: latest
+  # newTag: latest
 
 - name: PROJECT_BACKEND
   newName: sahilrajput03/ex2-02-img
-  newTag: latest
+  # newTag: latest
