@@ -1,6 +1,9 @@
 name: Release project-frontend
 
 on:
+  # Enable running this workflow ondemand via github's actions tab.
+  workflow_dispatch:
+
   push:
     branches:
       # ORIGINALLY
