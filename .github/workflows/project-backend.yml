@@ -86,7 +86,7 @@ jobs:
     # Commit and push
     - uses: EndBug/add-and-commit@v7
       with:
-        add: 'exercises/ex4-08/ex4-06/ex2-08-statefulsets/manifests/kustomization.yml'
+        add: 'exercises/ex4-08/ex4-06/ex2-08-statefulsets/manifests/kustomization.yaml'
         message: New version release for project-backend ${{ github.sha }}
       env:
         # ~Sahil, This is a builtin secret, you don't need to add this token at all. Src: https://docs.github.com/en/github-ae@latest/actions/security-guides/automatic-token-authentication
