@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: example-configmap
+  namespace: default
 data:
   # serverconfig: |
   #   maxplayers=12
