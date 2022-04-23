@@ -26,4 +26,5 @@ spec:
           resources:
             limits:
               memory: '128Mi'
-              cpu: '100m'
+              cpu: '120m'
+              # Change ^^ to trigger a deployment.

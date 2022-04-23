@@ -1314,3 +1314,17 @@ spec:
     branch: master
   url: https://github.com/stefanprodan/podinfo
 ```
+
+
+```bash
+# Watch all kustomizations in sync
+flux get kustomizations --watch
+
+# src: https://fluxcd.io/docs/cmd/flux_get_sources_all/
+# get all git repositories
+flux get sources all
+
+# get all git repositories and kustomizations active
+flux get all
+
+```
