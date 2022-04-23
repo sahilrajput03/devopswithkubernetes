@@ -35,8 +35,10 @@ sops -e -a age15vf84g080au93lmww53zvklvvh8g5l9kfng56mqvlzn9zm7vjatqpe7hwe secret
 # able to regenerate secret.yaml file again, by:
 export SOPS_AGE_KEY_FILE=$(pwd)/key.txt
 # OR
-export SOPS_AGE_KEY=myPrivateKeyText 
-# NOTE: You must use only one of above environment variable to set access to private key for sops.
+export SOPS_AGE_KEY=myPrivateKeyText
+# OR
+# sops will pick up agefile from default location i.e., $XDG_CONFIG_HOME/sops/age/keys.txt
+# LEARN: You must use only one of above environment variable to set access to private key for sops.
 sops -d secret.enc.yaml > secret.yaml
 ```
 
