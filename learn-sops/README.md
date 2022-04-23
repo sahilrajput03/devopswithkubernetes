@@ -1,6 +1,9 @@
 # Learn about sops
 
-Q. What is `age`?
+
+Suepr amazing demonstration - (video link is also on the top of readme file of mozilla sops github repository): [CLICK HERE](https://youtu.be/V2PRhxphH2w). Basically in the end he shows the most powerful way of encrypting data with mutiple public keys which are from aws, gcp_kms, azure_kms and our local gpg key. So this way say if you loose access to any of those accounts you would still have access to your encrypted keys using one of other ways. In fact you can safely put the private key of your gpg key in a penrive and keep it safe so anytime later if you loose cloud provider's account or something messes up you can straight up use your gpg_private_key to decrypt all the secrets while deploying again in a new cloud provider.
+
+**Q. What is `age`?**
 
 age is a simple, modern alternative to OpenPGP. It’s recommended to use age over OpenPGP, if possible.
 
@@ -41,8 +44,12 @@ sops -e -a age15vf84g080au93lmww53zvklvvh8g5l9kfng56mqvlzn9zm7vjatqpe7hwe secret
 # able to regenerate secret.yaml file again, by:
 export SOPS_AGE_KEY_FILE=$(pwd)/key.txt
 # OR
-export SOPS_AGE_KEY=myPrivateKeyText 
-# NOTE: You must use only one of above environment variable to set access to private key for sops.
+export SOPS_AGE_KEY=myPrivateKeyText
+# OR
+# sops will pick up agefile from default location i.e., $XDG_CONFIG_HOME/sops/age/keys.txt
+# LEARN: You must use only one of above environment variable to set access to private key for sops.
+# CURRENTLY I AM USING:
+export SOPS_AGE_KEY_FILE=~/sops/age/age.agekey # I RENAMED key.txt to age.agekey
 sops -d secret.enc.yaml > secret.yaml
 ```
 
