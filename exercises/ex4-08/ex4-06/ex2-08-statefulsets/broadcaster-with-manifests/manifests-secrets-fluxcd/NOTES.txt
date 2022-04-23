@@ -1,0 +1,7 @@
+This directory has `.sops.yaml` file which helps us to use that files's defined (may be multiple keys as well) public keys to encrypt certai files respective to the regex path match of each file.
+
+`.sops.yaml` file is only picked in cwd or any nested directories only.
+
+Lets say we wan't to encrypt *.dev.yaml files with key1 and *.prod.yaml files with key2.
+
+Read more in the readme of `learnAge_and_GPG_for_fluxcd` directory for more.

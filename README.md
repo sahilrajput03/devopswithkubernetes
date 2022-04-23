@@ -852,13 +852,38 @@ age: age is a simple, modern and secure file encryption tool, format, and Go lib
 
 ## `secrets` and play
 
+Docs: https://kubernetes.io/docs/concepts/configuration/secret/
+
 ```bash
 # View secret names, this doesn't show the values though:
 kc get secrets
 
 # Delete a secret
 kc delete secrets pixabay-apikey
+
+# Edit a secret in a live cluster:
+kc edit secrets telegram-secret
+# example to edit valued for a secret resource file like below:
 ```
+A sample secret file:
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  creationTimestamp: '2020-09-03T14:59:34Z'
+  name: telegram-secret
+  namespace: default
+data:
+  NATS_URL: BASE64_ENCODED
+  TELEGRAM_ACCESS_TOKEN: BASE64_ENCODED
+  TELEGRAM_CHAT_ID: BASE64_ENCODED
+
+```
+
+Q. What is opaque secret?
+
+Docs: https://kubernetes.io/docs/concepts/configuration/secret/#opaque-secrets
 
 ## kubernetes hierarchy
 
@@ -1157,6 +1182,37 @@ base64 --decode
 
 ```bash
 alias ken='ke -n default my-nats-box-d6bd784b-txccl -- sh -l'
+
+
+## Adding nats:
+# STRAIGHT FROM: https://devopswithkubernetes.com/part-4/2-messaging-systems 
+$ helm repo add nats https://nats-io.github.io/k8s/helm/charts/
+  ...
+$ helm repo update
+...
+$ helm install my-nats nats/nats
+#   NAME: my-nats
+#   LAST DEPLOYED: Thu Jul  2 15:04:56 2020
+#   NAMESPACE: default
+#   STATUS: deployed
+#   REVISION: 1
+#   TEST SUITE: None
+#   NOTES:
+#   You can find more information about running NATS on Kubernetes
+#   in the NATS documentation website:
+# 
+#     https://docs.nats.io/nats-on-kubernetes/nats-kubernetes
+# 
+#   NATS Box has been deployed into your cluster, you can
+#   now use the NATS tools within the container as follows:
+# 
+#     kubectl exec -n default -it my-nats-box -- /bin/sh -l
+# 
+#     nats-box:~# nats-sub test &
+#     nats-box:~# nats-pub test hi
+#     nats-box:~# nc my-nats 4222
+# 
+#   Thanks for using NATS!
 ```
 
 ## Using flux
@@ -1164,6 +1220,11 @@ alias ken='ke -n default my-nats-box-d6bd784b-txccl -- sh -l'
 
 flux official site: https://fluxcd.io/
 
+flux docs gitrepostory: https://fluxcd.io/docs/components/source/gitrepositories/
+
+flux kustomization: https://fluxcd.io/docs/components/kustomize/kustomization/#generate-kustomizationyaml
+
+ 
 ```bash
 # Checks prerequisites
 flux check --pre
@@ -1180,6 +1241,10 @@ flux bootstrap github --owner=sahilrajput03 --repository=kube-cluster-dwk --pers
 
 
 # My flux configuration repo linked with my local cluster @ https://github.com/sahilrajput03/kube-cluster-dwk
+
+# Watch flux logs by
+watchFluxLogs
+# alias watchFluxLogs='flux logs -f'
 ```
 
 
@@ -1210,4 +1275,42 @@ You must use `namespace: default` under `metadata` field in every resource in ya
 
 ```txt
 2022-04-21T21:45:56.478Z error Kustomization/project-gitops-app.flux-system - Reconciliation failed after 518.639339ms, next try in 2m0s Service/ex2-02-svc namespace not specified, error: the server could not find the requested resource
+```
+
+Debugggin:  
+
+```bash
+# Get the reason of faliure: https://fluxcd.io/legacy/helm-operator/helmrelease-guide/debugging/#getting-the-reason-of-failure
+ kubectl logs -n flux-system helm-controller-68686dc594-wftmp
+```
+
+Advance Debuggin in flux(haven't tried it yet): https://fluxcd.io/docs/gitops-toolkit/debugging/
+
+## flux's way of creating yaml files via commandline
+
+```bash
+#### FYI: Below will only create a file (will not apply this to flux at all coz we're using --export
+# flag and writing it to a file as per desire):
+#### IMPORTANT: We are using --export flag, where as if we don't use it then the generated source will be
+# applied to flux immediately and will throw error if there gitrepo is not a valid github url.
+flux create source git podinfo \
+  --url=https://github.com/stefanprodan/podinfo \
+  --branch=master \
+  --interval=30s \
+  --export > ./podinfo-source.yaml
+```
+
+will ouput a file:
+
+```yml
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: GitRepository
+metadata:
+  name: podinfo
+  namespace: flux-system
+spec:
+  interval: 30s
+  ref:
+    branch: master
+  url: https://github.com/stefanprodan/podinfo
 ```

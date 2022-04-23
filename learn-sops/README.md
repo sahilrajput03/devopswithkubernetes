@@ -1,5 +1,11 @@
 # Learn about sops
 
+Q. What is `age`?
+
+age is a simple, modern alternative to OpenPGP. It’s recommended to use age over OpenPGP, if possible.
+
+Encrypting with age follows the same workflow than PGP.
+
 ## base64 encoding
 My pixabay api (https://pixabay.com/api/docs/) key in `devopswithkubernetes/secrets` file and keepass safe.
 
