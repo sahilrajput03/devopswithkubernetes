@@ -1,6 +1,6 @@
 # Learn about sops
 
-Suepr amazing demonstration - (video link is also on the top of readme file of mozilla sops github repository): [Click here](https://youtu.be/V2PRhxphH2w).
+Suepr amazing demonstration - (video link is also on the top of readme file of mozilla sops github repository): [CLICK HERE](https://youtu.be/V2PRhxphH2w). Basically in the end he shows the most powerful way of encrypting data with mutiple public keys which are from aws, gcp_kms, azure_kms and our local gpg key. So this way say if you loose access to any of those accounts you would still have access to your encrypted keys using one of other ways. In fact you can safely put the private key of your gpg key in a penrive and keep it safe so anytime later if you loose cloud provider's account or something messes up you can straight up use your gpg_private_key to decrypt all the secrets while deploying again in a new cloud provider.
 
 ## base64 encoding
 My pixabay api (https://pixabay.com/api/docs/) key in `devopswithkubernetes/secrets` file and keepass safe.
