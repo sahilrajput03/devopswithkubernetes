@@ -3,7 +3,7 @@ import { TaskObj, toTaskObj } from './typing';
 import { generateName } from './services/name';
 import { checkTelegramConnection, sendMessageToTelegram } from './services/telegram';
 
-console.log("I got NAT_URL as:", NATS_URL)
+console.log("GOT: NAT_URL as:", NATS_URL)
 
 import { connect, Payload } from 'ts-nats';
 
