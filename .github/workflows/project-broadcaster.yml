@@ -1,4 +1,4 @@
-name: Release project-broadcaster
+name: Release project-broadcaster_
 
 on:
   # Enable running this workflow ondemand via github's actions tab.
