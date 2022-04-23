@@ -1,5 +1,7 @@
 # Learn about sops
 
+Suepr amazing demonstration - (video link is also on the top of readme file of mozilla sops github repository): [Click here](https://youtu.be/V2PRhxphH2w).
+
 ## base64 encoding
 My pixabay api (https://pixabay.com/api/docs/) key in `devopswithkubernetes/secrets` file and keepass safe.
 
