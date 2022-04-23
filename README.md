@@ -1317,7 +1317,10 @@ spec:
 
 
 ```bash
-# Watch all kustomizations in sync
+# Get all kustomizations
+flux get kustomizations
+
+# Watch all kustomizations in sync (Home page of fluxcd)
 flux get kustomizations --watch
 
 # src: https://fluxcd.io/docs/cmd/flux_get_sources_all/
@@ -1327,4 +1330,10 @@ flux get sources all
 # get all git repositories and kustomizations active
 flux get all
 
+
+# Delete a gitRepository resource
+flux delete source git my-secrets
+
+
+# FLUX RESOURCES: https://fluxcd.io/resources/
 ```
