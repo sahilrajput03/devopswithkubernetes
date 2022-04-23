@@ -1,9 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-resources:
 # - secret.yaml
+resources:
 - deployment.yaml
 images:
 - name: IMAGE_BROADCASTER
   newName: sahilrajput03/broadcaster-project
-  newTag: 37510fec42df3676ea56f6eb4cef6335a8a8df98
+  newTag: a16db622aeb085a1c93f85ad9e640688ac8669e3
