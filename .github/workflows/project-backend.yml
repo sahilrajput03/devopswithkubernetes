@@ -11,7 +11,7 @@ on:
       - main
     paths:
       - '.github/workflows/project-backend.yml'
-      - './exercises/ex4-08/ex4-06/ex2-08-statefulsets/ex2-02/**'
+      - 'exercises/ex4-08/ex4-06/ex2-08-statefulsets/ex2-02/**'
 
 jobs:
   build:

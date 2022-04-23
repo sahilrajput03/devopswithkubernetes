@@ -1,4 +1,4 @@
-name: Release project-broadcaster_
+name: Release project-broadcaster
 
 on:
   # Enable running this workflow ondemand via github's actions tab.
@@ -11,7 +11,7 @@ on:
       - main
     paths:
       - '.github/workflows/project-broadcaster.yml'
-      - './exercises/ex4-08/ex4-06/ex2-08-statefulsets/broadcaster-with-manifests/**'
+      - 'exercises/ex4-08/ex4-06/ex2-08-statefulsets/broadcaster-with-manifests/**'
 
 jobs:
   build:
