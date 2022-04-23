@@ -39,6 +39,8 @@ export SOPS_AGE_KEY=myPrivateKeyText
 # OR
 # sops will pick up agefile from default location i.e., $XDG_CONFIG_HOME/sops/age/keys.txt
 # LEARN: You must use only one of above environment variable to set access to private key for sops.
+# CURRENTLY I AM USING:
+export SOPS_AGE_KEY_FILE=~/sops/age/age.agekey
 sops -d secret.enc.yaml > secret.yaml
 ```
 
