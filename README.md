@@ -1330,10 +1330,24 @@ flux get sources all
 # get all git repositories and kustomizations active
 flux get all
 
-
 # Delete a gitRepository resource
 flux delete source git my-secrets
 
+# FLUX UNINSTALL NAMESPACE AND ALL SETUP:
+flux uninstall --namespace=flux-system
+# src: https://fluxcd.io/docs/cmd/flux_uninstall/
 
 # FLUX RESOURCES: https://fluxcd.io/resources/
+```
+
+# Some delete commands I used
+
+```bash
+kc delete deployments.apps hashgenerator-dep 
+kc delete deployments.apps 
+kc delete deployments.apps my-nats-box 
+kc delete cronjobs.batch daily-todos 
+kc delete statefulsets.apps my-nats 
+kc delete po daily-todos--1-kwhxg 
+kc delete job daily-todos 
 ```

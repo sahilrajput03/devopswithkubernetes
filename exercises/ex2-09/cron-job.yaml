@@ -1,0 +1,26 @@
+# SRC: https://github.com/movd/devopswithkubernetes#exercise-209
+# Docs: https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/
+# See other file in this directory to find a `kind: job` resource, read @ https://kubernetes.io/docs/concepts/workloads/controllers/job/
+# FYI: Official course had cronjob for backing up the database data daily for postgres!
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: daily-todos
+  namespace: default
+  labels:
+    run: curl
+spec:
+  schedule: "0 9 * * *"
+  # every day at 9am UTC.
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: curl
+              image: curlimages/curl:7.73.0
+              args:
+                - sh
+                - -c
+                - "echo -n 'Read: '; curl -sI https://en.wikipedia.org/wiki/Special:Random |grep 'location:' |awk '{print $2}'"
+          restartPolicy: OnFailure
