@@ -1353,5 +1353,3 @@ kc delete po daily-todos--1-kwhxg
 kc delete job daily-todos 
 ```
 
-```bash
-```
