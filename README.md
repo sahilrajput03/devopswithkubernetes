@@ -1266,7 +1266,8 @@ kc apply -k .
 # delete resources using a kustomization file (in current directory)
 kc delete -k .
 
-# FYI: IMPORTANT: kc edit -k is not a feature yet.., I made an issue for this: https://github.com/kubernetes/kubernetes/issues/109598
+# FYI: IMPORTANT: kc edit -k is a feature.., I made an issue for this: https://github.com/kubernetes/kubernetes/issues/109598
+kc edit -k .
 ```
 
 ## Important FLUX knowledge
@@ -1350,4 +1351,7 @@ kc delete cronjobs.batch daily-todos
 kc delete statefulsets.apps my-nats 
 kc delete po daily-todos--1-kwhxg 
 kc delete job daily-todos 
+```
+
+```bash
 ```
