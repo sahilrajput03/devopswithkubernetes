@@ -4,9 +4,8 @@
 ```bash
 # IMPERATIVE WAY CREATING DEPLOYMENT
 
-
 # Example 1, from COURSE DWK:
-kubectl create deployment hashgenerator-dep --image=jakousa/dwk-app1
+kubectl create deploy hashgenerator-dep --image=jakousa/dwk-app1
 kubectl scale deployment/hashgenerator-dep --replicas=4
 kubectl set image deployment/hashgenerator-dep dwk-app1=jakousa/dwk-app1:b7fc18de2376da80ff0cfc72cf581a9f94d10e64
 #fyi: ^^ this doesn't provide autocomplete for deployment name :(
