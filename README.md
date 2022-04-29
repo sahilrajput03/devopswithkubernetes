@@ -1,6 +1,28 @@
 <!-- prettier-ignore -->
 # Devops with kubernetes
 
+```bash
+# IMPERATIVE WAY CREATING DEPLOYMENT
+
+
+# Example 1, from COURSE DWK:
+kubectl create deployment hashgenerator-dep --image=jakousa/dwk-app1
+kubectl scale deployment/hashgenerator-dep --replicas=4
+kubectl set image deployment/hashgenerator-dep dwk-app1=jakousa/dwk-app1:b7fc18de2376da80ff0cfc72cf581a9f94d10e64
+#fyi: ^^ this doesn't provide autocomplete for deployment name :(
+# DELETING
+kubectl delete deployment hashgenerator-dep
+
+
+# Example 2:
+kubectl create deployment nginx --image=nginx --replicas=3
+# DELETING
+kc delete deployments.apps nginx
+
+
+## Always use declarative way i.e. defining resource using yaml files and directly apply them.
+```
+
 kubernetes has 86.8k stars and 1L+ commits.
 
 Website: https://devopswithkubernetes.com/
