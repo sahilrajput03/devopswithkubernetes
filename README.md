@@ -1374,3 +1374,48 @@ kc delete po daily-todos--1-kwhxg
 kc delete job daily-todos 
 ```
 
+## Scale deployment using javascript
+
+Src (official js client for kubernetes): https://github.com/kubernetes-client/javascript/tree/master/examples
+
+Source: https://kubernetes.io/docs/reference/using-api/client-libraries/
+
+![](./images/scale_deployment_using_js.png)
+
+## Configure access to multiple clusters (TODO: READ)
+
+Source: https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/
+
+**A file that is used to configure access to a cluster is sometimes called a kubeconfig file.**
+
+# Online playground
+
+K8:
+
+- Play with Kubernetes Classroom: https://labs.play-with-k8s.com/ 
+```bash
+# 1. Initializes cluster master node:
+# 2. Initialize cluster networking:
+# 3. (Optional) Create an nginx deployment:
+
+kubeadm init --apiserver-advertise-address $(hostname -i) --pod-network-cidr 10.5.0.0/16
+kubectl apply -f https://raw.githubusercontent.com/cloudnativelabs/kube-router/master/daemonset/kubeadm-kuberouter.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/website/master/content/en/examples/application/nginx-app.yaml
+## LEARN: It would take around 2 minutes only.
+```
+
+- Labs: https://training.play-with-kubernetes.com/
+- K8 Workshop: https://training.play-with-kubernetes.com/kubernetes-workshop/
+- Github (235 Stars): https://github.com/play-with-docker/play-with-kubernetes.github.io
+
+Docker:
+- https://labs.play-with-docker.com/
+- Github (2.2k stars): https://github.com/play-with-docker/play-with-docker
+
+**Playgrounds Shortcuts:**
+- Copy: Ctrl+insert
+- Paste: Shift+insert
+
+## What are verbs in kubernetes ?
+
+`verbs: ["get", "list", "watch", "create", "delete"]`

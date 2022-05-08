@@ -1,0 +1,17 @@
+{
+	"name": "k8",
+	"version": "1.0.0",
+	"description": "",
+	"main": "raw-example.js",
+	"scripts": {
+		"start": "nodemon -e js --inspect",
+		"debug": "nodemon -e js --inspect-brk"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@kubernetes/client-node": "^0.16.3",
+		"request": "^2.88.2"
+	}
+}
