@@ -1419,3 +1419,46 @@ Docker:
 ## What are verbs in kubernetes ?
 
 `verbs: ["get", "list", "watch", "create", "delete"]`
+
+## Read docs of `kubectl`
+
+Find @ https://kubernetes.io/docs/reference/kubectl/
+
+## Direclty accessing k8 api, k8config ?
+
+**Src: Directly accessing api:** https://kubernetes.io/docs/tasks/administer-cluster/access-cluster-api/#directly-accessing-the-rest-api
+
+```bash
+kubectl config view
+# Output:
+# apiVersion: v1
+# clusters:
+# - cluster:
+#     certificate-authority-data: DATA+OMITTED
+#     server: https://0.0.0.0:35455
+#   name: k3d-k3s-default
+# contexts:
+# - context:
+#     cluster: k3d-k3s-default
+#     namespace: default
+#     user: admin@k3d-k3s-default
+#   name: k3d-k3s-default
+# current-context: k3d-k3s-default
+# kind: Config
+# preferences: {}
+# users:
+# - name: admin@k3d-k3s-default
+#   user:
+#     client-certificate-data: REDACTED
+#     client-key-data: REDACTED
+```
+
+## How to access `k8` api via js client library?
+
+Src: https://kubernetes.io/docs/tasks/administer-cluster/access-cluster-api/
+
+Src (#js): https://kubernetes.io/docs/tasks/administer-cluster/access-cluster-api/#javascript-client
+
+Acess the api via cli ?
+
+**See my notes in the end of `exercises/app-10/controller/index.js` file.**
