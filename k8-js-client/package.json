@@ -4,8 +4,10 @@
 	"description": "",
 	"main": "raw-example.js",
 	"scripts": {
-		"start": "nodemon -e js --inspect",
-		"debug": "nodemon -e js --inspect-brk"
+		"raw-example": "nodemon -e js --inspect ./1.raw-example.js",
+		"raw-exampleInspectBrk": "nodemon -e js --inspect-brk ./1.raw-example.js",
+		"follow-logs": "nodemon -e js --inspect ./follow-logs.js",
+		"follow-logsInspectBrk": "nodemon -e js --inspect-brk ./follow-logs.js"
 	},
 	"keywords": [],
 	"author": "",
