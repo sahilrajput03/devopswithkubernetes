@@ -1,6 +1,24 @@
 <!-- prettier-ignore -->
 # Devops with kubernetes
 
+TODO: 
+- Explore Kubernetes GUI:
+  - Reddit - Are there any better kubernetes dashboard options?: [Click here](https://www.reddit.com/r/kubernetes/comments/18oxqe4/are_there_any_better_kubernetes_dashboard_options/)
+    - Kubernetes Dashboard (Official): [Github](https://github.com/kubernetes/dashboard) (14k*)
+      - General-purpose web UI for Kubernetes clusters
+      - 361 Contributors, 108 Open Issues, 16 Open PR's
+      - Docs: Deploy and Access the Kubernetes Dashboard: [Click here](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
+    - K9S: [Github](https://github.com/derailed/k9s) (25.4k*)
+      - 🐶 Kubernetes CLI To Manage Your Clusters In Style!: [Website](https://k9scli.io/)
+      -  253 Contributors, 451 Open Issues, 68 Open PR's
+    - Lens: [Website](https://k8slens.dev/)
+      - Lens websit claims: *"Lens is the most popular Kubernetes IDE in the world"*
+      - Article - What is Kubernetes Lens? Tutorial & Alternatives: [Click here](https://spacelift.io/blog/lens-kubernetes)
+      - 
+    - Rancher
+    - ArgoCD
+    - Grafana+Prometheus
+
 ```bash
 # IMPERATIVE WAY CREATING DEPLOYMENT
 
