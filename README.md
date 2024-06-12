@@ -1,9 +1,10 @@
 <!-- prettier-ignore -->
 # Devops with kubernetes
 
-TODO: 
+**TODO:**
+- Move these notes to a goodle doc asap for better **maintainability** over desktop and mobile.
 - Explore Kubernetes GUI:
-  - Reddit - Are there any better kubernetes dashboard options?: [Click here](https://www.reddit.com/r/kubernetes/comments/18oxqe4/are_there_any_better_kubernetes_dashboard_options/)
+  - **TODO: Reddit** - Are there any better kubernetes dashboard options?: [Click here](https://www.reddit.com/r/kubernetes/comments/18oxqe4/are_there_any_better_kubernetes_dashboard_options/)
     - Kubernetes Dashboard (Official): [Github](https://github.com/kubernetes/dashboard) (14k*)
       - General-purpose web UI for Kubernetes clusters
       - 361 Contributors, 108 Open Issues, 16 Open PR's
@@ -14,7 +15,6 @@ TODO:
     - Lens: [Website](https://k8slens.dev/)
       - Lens websit claims: *"Lens is the most popular Kubernetes IDE in the world"*
       - Article - What is Kubernetes Lens? Tutorial & Alternatives: [Click here](https://spacelift.io/blog/lens-kubernetes)
-      - 
     - Rancher
     - ArgoCD
     - Grafana+Prometheus
