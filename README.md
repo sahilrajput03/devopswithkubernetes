@@ -1,5 +1,5 @@
 <!-- prettier-ignore -->
-# Devops with kubernetes
+# TODO: Migrate this to Google Doc ASAP - Devops with kubernetes
 
 **TODO:**
 - Move these notes to a goodle doc asap for better **maintainability** over desktop and mobile.
