@@ -3,6 +3,7 @@
 
 **TODO:**
 - Move these notes to a goodle doc asap for better **maintainability** over desktop and mobile.
+- 💙 `sahilrajput03/kube-cluster-dwk`: [Click here](https://github.com/sahilrajput03/kube-cluster-dwk)
 - Try kubecolor: [Click here](https://www.youtube.com/watch?v=GflBSmvz6p8)
 - Explore Kubernetes GUI:
   - **TODO: Reddit** - Are there any better kubernetes dashboard options?: [Click here](https://www.reddit.com/r/kubernetes/comments/18oxqe4/are_there_any_better_kubernetes_dashboard_options/)
