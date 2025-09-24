@@ -47,6 +47,8 @@ export SOPS_AGE_KEY_FILE=$(pwd)/key.txt
 export SOPS_AGE_KEY=myPrivateKeyText
 # OR
 # sops will pick up agefile from default location i.e., $XDG_CONFIG_HOME/sops/age/keys.txt
+#   ❤️  macOS - $HOME/Library/Application Support/sops/age/keys.txt if $XDG_CONFIG_HOME isn’t set. (source: Homepage of sops repo)
+
 # LEARN: You must use only one of above environment variable to set access to private key for sops.
 # CURRENTLY I AM USING:
 export SOPS_AGE_KEY_FILE=~/sops/age/age.agekey # I RENAMED key.txt to age.agekey
