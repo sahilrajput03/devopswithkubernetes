@@ -47,7 +47,9 @@ export SOPS_AGE_KEY_FILE=$(pwd)/key.txt
 export SOPS_AGE_KEY=myPrivateKeyText
 # OR
 # sops will pick up agefile from default location i.e., $XDG_CONFIG_HOME/sops/age/keys.txt
-#   ❤️  macOS - $HOME/Library/Application Support/sops/age/keys.txt if $XDG_CONFIG_HOME isn’t set. (source: Homepage of sops repo)
+#   ❤️ macOS - $HOME/Library/Application Support/sops/age/keys.txt if $XDG_CONFIG_HOME isn’t set. (source: From SOPS's Github's Readme.md)
+#   ❤️ Content of this age file (source: From SOPS's Github's Readme.md):
+#       The contents of this key file should be a list of age X25519 identities, one per line. Lines beginning with # are considered comments and ignored. Each identity will be tried in sequence until one is able to decrypt the data.
 
 # LEARN: You must use only one of above environment variable to set access to private key for sops.
 # CURRENTLY I AM USING:
