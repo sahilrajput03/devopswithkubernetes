@@ -1,7 +1,7 @@
-# Learn about sops
+# Learn `sops`
 
-
-Suepr amazing demonstration - (video link is also on the top of readme file of mozilla sops github repository): [CLICK HERE](https://youtu.be/V2PRhxphH2w). Basically in the end he shows the most powerful way of encrypting data with mutiple public keys which are from aws, gcp_kms, azure_kms and our local gpg key. So this way say if you loose access to any of those accounts you would still have access to your encrypted keys using one of other ways. In fact you can safely put the private key of your gpg key in a penrive and keep it safe so anytime later if you loose cloud provider's account or something messes up you can straight up use your gpg_private_key to decrypt all the secrets while deploying again in a new cloud provider.
+- Video Demonstration of `sops`: [Click here](https://youtu.be/V2PRhxphH2w) _(source: Sops Github Repo)_
+  - Basically in the end he shows the most powerful way of encrypting data with mutiple public keys which are from aws, gcp_kms, azure_kms and our local gpg key. So this way say if you loose access to any of those accounts you would still have access to your encrypted keys using one of other ways. In fact you can safely put the private key of your gpg key in a penrive and keep it safe so anytime later if you loose cloud provider's account or something messes up you can straight up use your gpg_private_key to decrypt all the secrets while deploying again in a new cloud provider.
 
 **Q. What is `age`?**
 
@@ -10,12 +10,13 @@ age is a simple, modern alternative to OpenPGP. It’s recommended to use age ov
 Encrypting with age follows the same workflow than PGP.
 
 ## base64 encoding
+
 My pixabay api (https://pixabay.com/api/docs/) key in `devopswithkubernetes/secrets` file and keepass safe.
 
 Its base 64 encoded version can be obtained by:
 
 ```bash
-echo -n $PIXABAY_TOKEN | base64 
+echo -n $PIXABAY_TOKEN | base64
 # note: I imported secrets file which has api keys in them in my .bashrc file.
 ```
 
@@ -29,7 +30,7 @@ Sops Docs: Encryption: https://github.com/mozilla/sops#22encrypting-using-age
 #### KEYS GENERATION
 age-keygen -o key.txt
 
-#### ENCRYPTION
+#### ENCRYPTION 🔒
 # Using public key from above file (or copy from stdout simply and use it in the -a option):
 sops -e -a age15vf84g080au93lmww53zvklvvh8g5l9kfng56mqvlzn9zm7vjatqpe7hwe secret.yaml > secret.enc.yaml
 # FYI: -a is an alias for --age and -e is alias for --encrypt (FROM `sops -h`)
@@ -39,17 +40,14 @@ sops -e -a age15vf84g080au93lmww53zvklvvh8g5l9kfng56mqvlzn9zm7vjatqpe7hwe secret
 # Refer my `multiple-public-keys-encryption-for-teams` in this folder for more info.
 
 
-#### DECRYPTION
+#### DECRYPTION 🔐
 # Later when any developer pulls from github he need to have the key.txt file to be
 # able to regenerate secret.yaml file again, by:
 export SOPS_AGE_KEY_FILE=$(pwd)/key.txt
 # OR
 export SOPS_AGE_KEY=myPrivateKeyText
 # OR
-# sops will pick up agefile from default location i.e., $XDG_CONFIG_HOME/sops/age/keys.txt
-#   ❤️ macOS - $HOME/Library/Application Support/sops/age/keys.txt if $XDG_CONFIG_HOME isn’t set. (source: From SOPS's Github's Readme.md)
-#   ❤️ Content of this age file (source: From SOPS's Github's Readme.md):
-#       The contents of this key file should be a list of age X25519 identities, one per line. Lines beginning with # are considered comments and ignored. Each identity will be tried in sequence until one is able to decrypt the data.
+# sops will pick up agefile from default location (check heading `Location of Age file (Private key file)` )
 
 # LEARN: You must use only one of above environment variable to set access to private key for sops.
 # CURRENTLY I AM USING:
@@ -57,16 +55,20 @@ export SOPS_AGE_KEY_FILE=~/sops/age/age.agekey # I RENAMED key.txt to age.agekey
 sops -d secret.enc.yaml > secret.yaml
 ```
 
+### ❤️ Location of Age file (Private key file)
+
 **FYI: From docs, the age file should be better be places at conventional path so its picked automatically when decrypting.**
 
 ```bash
 # src: https://github.com/mozilla/sops#encrypting-using-age
 $XDG_CONFIG_HOME/sops/age/keys.txt
 %AppData%\sops\age\keys.txt
-$HOME/Library/Application
+# ❤️ macOS (when$XDG_CONFIG_HOME isn’t set.)
+$HOME/Library/Application Support/sops/age/keys.txt
 ```
 
-When decrypting a file with the corresponding identity, sops will look for a text file name keys.txt located in a sops subdirectory of your user configuration directory. On Linux, this would be $XDG_CONFIG_HOME/sops/age/keys.txt.
+- When decrypting a file with the corresponding identity, sops will look for a text file name keys.txt located in a sops subdirectory of your user configuration directory. On Linux, this would be $XDG_CONFIG_HOME/sops/age/keys.txt.
+- ❤️ From SOPS's Github's Readme.md - "The contents of this key file should be a list of age X25519 identities, one per line. Lines beginning with # are considered comments and ignored. Each identity will be tried in sequence until one is able to decrypt the data."
 
 **Kubernetes decryption of secret files and apply on the fly:**
 
