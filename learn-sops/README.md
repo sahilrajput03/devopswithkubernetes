@@ -87,7 +87,8 @@ NOTE: **MAKE SURE TO UPDATE YOUR ENCRYPTED .env files whenever you make changes 
 
 ```bash
 # Encryption (uses SOPS_AGE_RECIPIENTS )
-sops -e .env > enc.env
+sops -e .env > enc.env # example 1
+sops -e secrets.env > secrets.enc.env # example 2
 
 # IMPORTANT: This will overwrite your .env file so use with caution.
 # Decryption  (uses ~/sops/age/keys.txt by default)
@@ -95,9 +96,3 @@ sops -d enc.env > .env
 ```
 
 Applied `.env` encryption @ [https://github.com/sahilrajput03/telegram-bot-requests](https://github.com/sahilrajput03/telegram-bot-requests).
-
-**For named encrypted files**
-
-```bash
-sops -e secrets.env > secrets.enc.env
-```
